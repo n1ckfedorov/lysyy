@@ -9,7 +9,15 @@ const bundleAnalyzer = withBundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = bundleAnalyzer({
-  // Your Next.js config options go here
+
+  images: {
+    domains: ['*'],
+    remotePatterns: [
+      {
+        hostname: '**',
+      },
+    ],
+  },
 });
 
 const sentryWebpackPluginOptions = {
@@ -29,6 +37,7 @@ const sentryWebpackPluginOptions = {
   sourceMaps: {
     disable: true,
   },
+  disable: process.env.NODE_ENV === 'development',
 };
 
 // Make sure to pass the options as the second argument
