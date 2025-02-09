@@ -1,9 +1,15 @@
-import { Hello } from '@/components/Hello';
+import { BaseTemplate } from '@/templates/BaseTemplate';
+import { About } from './components/About';
+import { Banner } from './components/Banner';
+import { Counter } from './components/Counter';
 
 export default async function Home() {
   return (
-    <div>
-      <Hello />
-    </div>
+    <BaseTemplate>
+      <Banner />
+      <About />
+      <Counter />
+    </BaseTemplate>
+
   );
 }

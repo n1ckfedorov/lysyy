@@ -26,11 +26,9 @@ export default function Error({
       </Alert>
 
       <div className="flex justify-center">
-        <Button
-          variant="default"
-          onClick={() => window.location.reload()}
-        >
+        <Button variant="primary" onClick={() => window.location.reload()}>
           Refresh page
+
         </Button>
       </div>
 
