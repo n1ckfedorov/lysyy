@@ -69,3 +69,15 @@
     @apply !bg-primary;
   }
 }
+
+.rich-text ul {
+  @apply mb-4 list-disc list-inside pl-4;
+}
+
+.rich-text strong {
+  @apply text-primary mb-2 inline-block;
+}
+
+.rich-text em {
+  @apply text-primary;
+}

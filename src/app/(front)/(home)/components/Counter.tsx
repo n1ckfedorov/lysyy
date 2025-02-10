@@ -20,20 +20,21 @@ const counterItems: CounterItem[] = [
 const renderIcon = (icon: string) => {
   switch (icon) {
     case 'medal':
-      return <Medal size={40} className="text-primary" />;
+      return <Medal size={40} className="text-secondary" />;
     case 'presentation':
-      return <Presentation size={40} className="text-primary" />;
+      return <Presentation size={40} className="text-secondary" />;
     case 'palette':
-      return <Palette size={40} className="text-primary" />;
+
+      return <Palette size={40} className="text-secondary" />;
     default:
-      return <Users size={40} className="text-primary" />;
+      return <Users size={40} className="text-secondary" />;
   }
 };
 
 export function Counter() {
   return (
-    <section className="container mx-auto px-6 py-16 md:py-24 border-t border-gray-300">
-      <div className=" mb-10 flex items-center gap-4">
+    <section className="container mx-auto px-6 py-16  border-t border-gray-300">
+      <div className="mb-8 flex items-center gap-4">
         <h2 className="text-3xl font-semibold text-gray-900 shrink-0">
           Sergiy's Journey
         </h2>
@@ -43,12 +44,13 @@ export function Counter() {
         {counterItems.map((item, index) => (
           <motion.div
             key={item.title}
-            className="flex flex-col items-center gap-4 p-6 bg-white shadow-md rounded-xl"
+            className="flex flex-col items-center gap-4 p-6 bg-secondary/5 shadow-md rounded-xl shadow-primary/20"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.2 }}
+
           >
-            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-primary/10">
+            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-secondary/10">
               {renderIcon(item.icon)}
             </div>
 
@@ -57,9 +59,10 @@ export function Counter() {
             <NumberTicker
               value={item.value}
               decimalPlaces={0}
-              className="text-5xl font-extrabold bg-gradient-to-r from-secondary to-primary text-transparent bg-clip-text"
+              className="text-5xl font-extrabold bg-gradient-to-r from-primary/80 to-primary/50 text-transparent bg-clip-text"
             />
           </motion.div>
+
         ))}
       </div>
     </section>

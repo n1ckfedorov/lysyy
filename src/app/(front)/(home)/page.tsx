@@ -1,14 +1,32 @@
+import { GalleryBanner } from '@/components';
 import { BaseTemplate } from '@/templates/BaseTemplate';
+
 import { About } from './components/About';
-import { Banner } from './components/Banner';
 import { Counter } from './components/Counter';
+import { Privilege } from './components/Privilege';
+
+const bannerSlides = [
+  {
+    id: 1,
+    image: '/assets/images/main-banner/1.jpg',
+  },
+  {
+    id: 2,
+    image: '/assets/images/main-banner/2.jpg',
+  },
+  {
+    id: 3,
+    image: '/assets/images/main-banner/3.jpg',
+  },
+];
 
 export default async function Home() {
   return (
     <BaseTemplate>
-      <Banner />
+      <GalleryBanner slides={bannerSlides} hasLens />
       <About />
       <Counter />
+      <Privilege />
     </BaseTemplate>
 
   );
