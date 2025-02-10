@@ -10,59 +10,33 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Autoplay, EffectFade, Navigation, Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
-const mockData = [
-  {
-    id: 1,
-    title: 'Storm. Nida prieš šimtą metų.',
-    image: '/assets/images/main-banner/1.jpg',
-    darkText: true,
-
-  },
-  {
-    id: 2,
-    title: 'Winter Klaipeda. ❄️',
-    image: '/assets/images/main-banner/2.jpg',
-    darkText: false,
-  },
-  {
-    id: 3,
-    title: 'Klaipeda 100 years ago.',
-    image: '/assets/images/main-banner/3.jpg',
-    darkText: true,
-  },
-];
-
 type RenderSlideProps = {
   id: number;
-  title: string;
   image: string;
-  darkText: boolean;
   hovering: boolean;
   setHovering: (hovering: boolean) => void;
+  hasLens: boolean;
 };
 
-const renderSlide = ({ id, title, image, darkText, hovering, setHovering }: RenderSlideProps) => {
+const renderSlide = ({ id, image, hovering, setHovering, hasLens }: RenderSlideProps) => {
   return (
     <SwiperSlide className="w-full h-full relative " key={id}>
-
-      <Lens hovering={hovering} setHovering={setHovering} className="w-full h-full min-h-dvh">
-        <Image src={image} alt={title} fill className="object-cover size-full object-center" priority />
-      </Lens>
-
-      <div className="absolute inset-0 z-30 flex items-center justify-center text-4xl font-bold shadow-2xl pointer-events-none">
-
-        <h2 className={cn('p-4', `${darkText ? 'text-black shadow-black bg-white/50' : 'text-white shadow-white bg-black/50'}`)}>
-          {title}
-        </h2>
-
-      </div>
-
+      {hasLens && (
+        <Lens hovering={hovering} setHovering={setHovering} className="w-full h-full ">
+          <Image src={image} alt="Artwork" fill className="object-cover size-full object-center" priority />
+        </Lens>
+      )}
+      {!hasLens && (
+        <div className="w-full h-full">
+          <Image src={image} alt="Artwork" fill className="object-cover size-full object-center" priority />
+        </div>
+      )}
     </SwiperSlide>
 
   );
 };
 
-export const Banner = () => {
+export const GalleryBanner = ({ slides, hasLens = false, className }: { slides: { id: number; image: string }[]; hasLens?: boolean; className?: string }) => {
   const [hovering, setHovering] = useState(false);
 
   const prevRef = useRef<HTMLButtonElement>(null);
@@ -111,13 +85,13 @@ export const Banner = () => {
       loop
       speed={700}
       effect="fade"
-      className="relative group"
+      className={cn('relative group h-[calc(100dvh-76px)]', className)}
       onInit={() => {
         setSwiperLoaded(true);
       }}
 
     >
-      {mockData.map(item => renderSlide({ ...item, hovering, setHovering }))}
+      {slides.map(item => renderSlide({ ...item, hovering, setHovering, hasLens }))}
       <IconButton
         variant="primary"
         ref={prevRef}

@@ -87,8 +87,8 @@ export const Header = () => {
 
   // Calculate scrollbar width on mount to prevent layout shift
   useEffect(() => {
-    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+    // const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    // document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
   }, []);
 
   return (
@@ -97,9 +97,9 @@ export const Header = () => {
       <motion.header
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.3, ease: 'easeIn' }}
+        transition={{ duration: 0.2 }}
         className={cn(
-          'fixed top-0 left-0 w-full py-4 backdrop-blur-lg bg-white/50 shadow-2xl rounded-bl-3xl rounded-br-3xl',
+          'w-full py-4 backdrop-blur-lg bg-white/50',
           mobileMenuOpen && 'bg-white rounded-none',
           // Ensure header stays above overlay
           'z-50',
