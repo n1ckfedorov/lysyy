@@ -8,13 +8,13 @@ import Link from 'next/link';
 import * as React from 'react';
 
 const iconButtonVariants = cva(
-  'inline-flex items-center justify-center rounded ring-offset-white focus-visible:outline-none disabled:pointer-events-none disabled:border-transparent disabled:bg-transparent disabled:opacity-20 cursor-pointer transition-all duration-300 shadow-lg',
+  'inline-flex items-center justify-center rounded ring-offset-white focus-visible:outline-none disabled:pointer-events-none cursor-pointer transition-all duration-300 shadow-lg ',
   {
     variants: {
       variant: {
         primary: 'border-primary bg-primary text-white hover:bg-primary/80',
         secondary:
-          'bg-secondary  border-secondary hover:bg-secondary/80 text-white',
+          'bg-secondary  border-secondary hover:bg-secondary/80 text-white disabled:bg-secondary/70 ',
         ghost: 'bg-transparent text-secondary hover:bg-secondary/80',
 
       },

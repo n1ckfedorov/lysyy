@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { TextContent } from '@/components';
 import { PhotoBanner } from '@/components/PhotoBanner';
-import { BaseTemplate } from '@/templates/BaseTemplate';
 
 const exhibitions = `
     <strong>2024</strong>
@@ -73,16 +72,13 @@ export const metadata: Metadata = {
 
 export default async function Exhibitions() {
   return (
-    <BaseTemplate>
-
+    <>
       <PhotoBanner image="https://watercolorsjanmin.com/wp-content/themes/yootheme/cache/f5/whatsapp-image-2022-05-11-at-3.23.10-pm-f52fe088.webp" />
       <TextContent
         texts={exhibitions}
         title="Exhibitions"
-        subtitle="Listing of  group exhibitions in the last years
-"
+        subtitle="Listing of  group exhibitions in the last years"
       />
-    </BaseTemplate>
-
+    </>
   );
 }

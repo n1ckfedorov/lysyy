@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 
 import { Sprite } from '@/components/Sprite';
+import { BaseTemplate } from '@/templates/BaseTemplate';
 import { Karla, Playfair_Display, Raleway } from 'next/font/google';
 import '@/styles/global.css';
 
@@ -58,7 +59,9 @@ export default async function RootLayout(props: {
     <html lang="en" className={`${karla.variable} ${playfairDisplay.variable} ${raleway.variable}`}>
       <body suppressHydrationWarning className="min-h-dvh flex flex-col grow justify-between">
         <Sprite />
-        {props.children}
+        <BaseTemplate>
+          {props.children}
+        </BaseTemplate>
 
       </body>
 

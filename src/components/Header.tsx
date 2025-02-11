@@ -94,10 +94,8 @@ export const Header = () => {
   return (
     <>
       <Overlay isVisible={mobileMenuOpen} onClick={() => setMobileMenuOpen(false)} />
-      <motion.header
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.2 }}
+      <header
+
         className={cn(
           'w-full py-4 backdrop-blur-lg bg-white/50',
           mobileMenuOpen && 'bg-white rounded-none',
@@ -193,7 +191,7 @@ export const Header = () => {
             </motion.div>
           )}
         </AnimatePresence>
-      </motion.header>
+      </header>
     </>
   );
 };

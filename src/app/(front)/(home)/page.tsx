@@ -1,5 +1,4 @@
 import { GalleryBanner } from '@/components';
-import { BaseTemplate } from '@/templates/BaseTemplate';
 
 import { About } from './components/About';
 import { Counter } from './components/Counter';
@@ -22,12 +21,12 @@ const bannerSlides = [
 
 export default async function Home() {
   return (
-    <BaseTemplate>
+    <>
       <GalleryBanner slides={bannerSlides} hasLens />
       <About />
       <Counter />
       <Privilege />
-    </BaseTemplate>
+    </>
 
   );
 }
