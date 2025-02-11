@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import { GalleryBanner, TextContent } from '@/components';
-import { BaseTemplate } from '@/templates/BaseTemplate';
 
 const bannerSlides = [
   {
@@ -49,11 +48,10 @@ export const metadata: Metadata = {
 
 export default async function Biography() {
   return (
-    <BaseTemplate>
+    <>
       <GalleryBanner slides={bannerSlides} className="md:!mx-10 h-[calc(90dvh-76px)]" />
-
       <TextContent texts={texts} title="Biography" subtitle="Biography of Sergiy Lysyy" />
-    </BaseTemplate>
+    </>
 
   );
 }
