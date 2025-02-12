@@ -1,16 +1,16 @@
-/* eslint-disable react-dom/no-dangerously-set-innerhtml */
 import type { FC } from 'react';
 import { cn } from '@/lib/utils';
 import Image from 'next/image';
+import { RichText } from './RichText/RichText';
 
 type TextContentProps = {
   className?: string;
-  texts: string;
+  textContent?: any;
   title: string;
   subtitle: string;
 };
 
-export const TextContent: FC<TextContentProps> = ({ className, texts, title, subtitle }) => {
+export const TextContent: FC<TextContentProps> = ({ className, textContent, title, subtitle }) => {
   return (
 
     <div className={cn(' mx-auto px-6 py-16 max-w-full overflow-x-hidden', className)}>
@@ -23,7 +23,7 @@ export const TextContent: FC<TextContentProps> = ({ className, texts, title, sub
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="flex flex-col gap-4">
-            <div dangerouslySetInnerHTML={{ __html: texts }} className="mt-10 rich-text" />
+            {textContent && <RichText content={textContent} className="mt-10 rich-text" />}
 
           </div>
           <div className="flex flex-col gap-20 lg:items-end h-full items-center">
