@@ -1,4 +1,5 @@
 import withBundleAnalyzer from '@next/bundle-analyzer';
+import { withPayload } from '@payloadcms/next/withPayload';
 import { withSentryConfig } from '@sentry/nextjs';
 
 import './src/lib/Env';
@@ -9,9 +10,7 @@ const bundleAnalyzer = withBundleAnalyzer({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = bundleAnalyzer({
-
   images: {
-    domains: ['*'],
     remotePatterns: [
       {
         hostname: '**',
@@ -41,4 +40,4 @@ const sentryWebpackPluginOptions = {
 };
 
 // Make sure to pass the options as the second argument
-export default withSentryConfig(nextConfig, sentryWebpackPluginOptions);
+export default withPayload(withSentryConfig(nextConfig, sentryWebpackPluginOptions));

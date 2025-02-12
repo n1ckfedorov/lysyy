@@ -30,7 +30,7 @@ const navItems = [
 
 const NavLink = ({ label, href, className }: { label: string; href: string; className?: string }) => {
   const pathname = usePathname();
-  const isActive = href === pathname;
+  const isActive = pathname?.startsWith(href) || pathname === href;
 
   return (
     <Link href={href} className={cn('block px-4 py-2 text-lg font-medium hover:text-primary', isActive && 'text-primary', className)}>
