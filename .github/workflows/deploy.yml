@@ -24,18 +24,17 @@ jobs:
       # Шаг 3: Принудительное обновление репозитория и деплой на сервер
       - name: Deploy to server
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "
-            cd /var/www/lysyy &&
-            git fetch origin master &&
-            git reset --hard origin/master &&
-            git clean -fd &&
-            npm ci --legacy-peer-deps &&
-            rm -rf .next &&
-            npm run build &&
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+            cd /var/www/lysyy
+            git fetch origin master
+            git reset --hard origin/master
+            git clean -fd
+            npm ci --legacy-peer-deps
+            rm -rf .next
+            npm run build
             pm2 restart all
-          "
+          EOF
 
       # Шаг 4: Проверка, что сервер работает
       - name: Verify deployment
-        run: |
-          curl -I http://${{ secrets.SERVER_IP }}
+        run: curl -I http://${{ secrets.SERVER_IP }}
