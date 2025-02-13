@@ -44,7 +44,7 @@ const OrderModal: FC<OrderModalProps> = ({ isDialogOpen, setIsDialogOpen, title,
         work: { id: workId },
       });
 
-      if (emailResponse.ok) {
+      if (emailResponse.response.data.id) {
         setIsDialogOpen(false);
         form.reset();
       }

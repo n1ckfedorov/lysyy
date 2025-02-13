@@ -1,6 +1,5 @@
 import type { CollectionConfig } from 'payload';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
-import { revalidatePage } from '../utilities/revalidatePage';
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -11,17 +10,6 @@ export const Products: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     description: 'Products created by Sergiy Lysyy',
-  },
-  hooks: {
-    afterChange: [
-      ({ req: { payload }, doc }) => {
-        revalidatePage({
-          payload,
-          collection: 'products',
-          doc,
-        });
-      },
-    ],
   },
   fields: [
     {

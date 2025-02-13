@@ -1,5 +1,4 @@
 import type { CollectionConfig } from 'payload';
-import { revalidatePage } from '../utilities/revalidatePage';
 
 export const Works: CollectionConfig = {
   slug: 'works',
@@ -10,17 +9,6 @@ export const Works: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     description: 'Artworks created by Sergiy Lysyy',
-  },
-  hooks: {
-    afterChange: [
-      ({ req: { payload }, doc }) => {
-        revalidatePage({
-          payload,
-          collection: 'works',
-          doc,
-        });
-      },
-    ],
   },
   fields: [
     {
