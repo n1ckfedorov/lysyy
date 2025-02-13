@@ -1,21 +1,11 @@
 'use client';
 
-import { captureException } from '@sentry/nextjs';
 import NextError from 'next/error';
-import { useEffect } from 'react';
 
-export default function GlobalError({
-  error,
-}: {
-  error: Error & { digest?: string };
-}) {
-  useEffect(() => {
-    captureException(error);
-  }, [error]);
-
+export default function GlobalError(props: { params: { locale: string } }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen bg-background flex items-center justify-center p-4">
+    <html lang={props.params.locale}>
+      <body>
         <NextError statusCode={0} />
       </body>
     </html>

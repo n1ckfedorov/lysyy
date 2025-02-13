@@ -21,15 +21,10 @@ jobs:
         run: |
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      # Шаг 3: Проверка SSH-соединения
-      - name: Check SSH connection
-        run: |
-          ssh -v -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} "echo SSH connection successful"
-
-      # Шаг 4: Принудительное обновление репозитория и деплой на сервер
+      # Шаг 3: Принудительное обновление репозитория и деплой на сервер
       - name: Deploy to server
         run: |
-          ssh -v -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
             cd /var/www/lysyy
             git fetch origin master
             git reset --hard origin/master
@@ -40,6 +35,6 @@ jobs:
             pm2 restart all
           EOF
 
-      # Шаг 5: Проверка, что сервер работает
+      # Шаг 4: Проверка, что сервер работает
       - name: Verify deployment
         run: curl -I http://${{ secrets.SERVER_IP }}
