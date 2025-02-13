@@ -27,7 +27,7 @@ export const WorkDetails: FC<WorkWithNavigationProps> = ({
   slug,
 }) => {
   const router = useRouter();
-  const currentId = Number(id);
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const currentIndex = allWorks.findIndex(work => work.slug === slug);
@@ -85,7 +85,7 @@ export const WorkDetails: FC<WorkWithNavigationProps> = ({
             <IconButton
               onClick={goToPreviousPage}
               variant="secondary"
-              disabled={currentId <= 1}
+
               className="flex items-center gap-2 w-auto px-4 bg-secondary/70"
 
             >
@@ -96,7 +96,7 @@ export const WorkDetails: FC<WorkWithNavigationProps> = ({
             <IconButton
               onClick={goToNextPage}
               variant="secondary"
-              disabled={currentId >= totalWorks}
+
               className="flex items-center gap-2 w-auto px-4 bg-secondary/70"
 
             >

@@ -27,7 +27,7 @@ export const ProductDetails: FC<ProductWithNavigationProps> = ({
   description,
 }) => {
   const router = useRouter();
-  const currentId = Number(id);
+
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const currentIndex = allProducts.findIndex(product => product.slug === slug);
@@ -84,7 +84,6 @@ export const ProductDetails: FC<ProductWithNavigationProps> = ({
             <IconButton
               onClick={goToPreviousPage}
               variant="secondary"
-              disabled={currentId <= 1}
               className="flex items-center gap-2 w-auto px-4 bg-secondary/70"
 
             >
@@ -95,7 +94,6 @@ export const ProductDetails: FC<ProductWithNavigationProps> = ({
             <IconButton
               onClick={goToNextPage}
               variant="secondary"
-              disabled={currentId >= totalProducts}
               className="flex items-center gap-2 w-auto px-4 bg-secondary/70"
 
             >
