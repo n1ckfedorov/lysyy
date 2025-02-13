@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-to-interactive-role */
 /* eslint-disable react-dom/no-dangerously-set-innerhtml */
 /* eslint-disable react/no-array-index-key */
 
@@ -6,11 +7,12 @@ import type { SerializedHeadingNode } from '@lexical/rich-text';
 import type { LinkFields, SerializedLinkNode } from '@payloadcms/richtext-lexical';
 import type { SerializedElementNode, SerializedLexicalNode, SerializedTextNode } from 'lexical';
 
+import { cn } from '@/lib/utils';
+
 import escapeHTML from 'escape-html';
-
 import Link from 'next/link';
-import React, { type JSX } from 'react';
 
+import React, { type JSX } from 'react';
 import {
   IS_BOLD,
   IS_CODE,
@@ -35,27 +37,27 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             <span dangerouslySetInnerHTML={{ __html: escapeHTML(node.text) }} key={index} />
           );
           if (node.format & IS_BOLD) {
-            text = <strong key={index}>{text}</strong>;
+            text = <strong className="font-bold" key={index}>{text}</strong>;
           }
           if (node.format & IS_ITALIC) {
-            text = <em key={index}>{text}</em>;
+            text = <em className="italic" key={index}>{text}</em>;
           }
           if (node.format & IS_STRIKETHROUGH) {
             text = (
-              <span key={index} style={{ textDecoration: 'line-through' }}>
+              <span key={index} className="line-through">
                 {text}
               </span>
             );
           }
           if (node.format & IS_UNDERLINE) {
             text = (
-              <span key={index} style={{ textDecoration: 'underline' }}>
+              <span key={index} className="underline">
                 {text}
               </span>
             );
           }
           if (node.format & IS_CODE) {
-            text = <code key={index}>{text}</code>;
+            text = <code key={index} className="bg-gray-200 p-1 rounded">{text}</code>;
           }
           if (node.format & IS_SUBSCRIPT) {
             text = <sub key={index}>{text}</sub>;
@@ -101,20 +103,20 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             return <br key={index} />;
           }
           case 'paragraph': {
-            return <p key={index}>{serializedChildren}</p>;
+            return <p key={index} className="mb-4 text-gray-800">{serializedChildren}</p>;
           }
           case 'heading': {
             const node = _node as SerializedHeadingNode;
 
             type Heading = Extract<keyof JSX.IntrinsicElements, 'h1' | 'h2' | 'h3' | 'h4' | 'h5'>;
             const Tag = node?.tag as Heading;
-            return <Tag key={index}>{serializedChildren}</Tag>;
+            return <Tag key={index} className={cn(node?.tag === 'h1' && 'text-3xl font-semibold mb-4', node?.tag === 'h2' && 'text-2xl font-semibold mb-4', node?.tag === 'h3' && 'text-xl font-semibold mb-4', node?.tag === 'h4' && 'text-lg font-semibold mb-4', node?.tag === 'h5' && 'text-base font-semibold mb-4')}>{serializedChildren}</Tag>;
           }
           case 'label':
-            return <span key={index}>{serializedChildren}</span>;
+            return <span key={index} className="font-semibold">{serializedChildren}</span>;
 
           case 'largeBody': {
-            return <p key={index}>{serializedChildren}</p>;
+            return <p key={index} className="text-xl text-gray-600">{serializedChildren}</p>;
           }
           case 'list': {
             const node = _node as SerializedListNode;
@@ -122,7 +124,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             type List = Extract<keyof JSX.IntrinsicElements, 'ol' | 'ul'>;
             const Tag = node?.tag as List;
             return (
-              <Tag className={node?.listType} key={index}>
+              <Tag className="list-inside list-disc pl-5 mb-4" key={index}>
                 {serializedChildren}
               </Tag>
             );
@@ -134,13 +136,8 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               return (
                 <li
                   aria-checked={node.checked ? 'true' : 'false'}
-                  className={`component--list-item-checkbox ${
-                    node.checked
-                      ? 'component--list-item-checkbox-checked'
-                      : 'component--list-item-checked-unchecked'
-                  }`}
+                  className={`flex items-center space-x-2 ${node.checked ? 'text-green-500' : 'text-red-500'}`}
                   key={index}
-                  // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
                   role="checkbox"
                   tabIndex={-1}
                   value={node?.value}
@@ -150,14 +147,14 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
               );
             } else {
               return (
-                <li key={index} value={node?.value}>
+                <li className="mb-2" key={index} value={node?.value}>
                   {serializedChildren}
                 </li>
               );
             }
           }
           case 'quote': {
-            return <blockquote key={index}>{serializedChildren}</blockquote>;
+            return <blockquote key={index} className="italic border-l-4 pl-4 text-gray-700">{serializedChildren}</blockquote>;
           }
           case 'link': {
             const node = _node as SerializedLinkNode;
@@ -169,6 +166,7 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
                 <Link
                   href={escapeHTML(fields.url)}
                   key={index}
+                  className="text-blue-500 hover:underline"
                   {...(fields?.newTab
                     ? {
                         rel: 'noopener noreferrer',

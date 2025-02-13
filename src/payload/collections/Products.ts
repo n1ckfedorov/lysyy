@@ -1,20 +1,34 @@
 import type { CollectionConfig } from 'payload';
+import { lexicalEditor } from '@payloadcms/richtext-lexical';
 
-export const Works: CollectionConfig = {
-  slug: 'works',
+export const Products: CollectionConfig = {
+  slug: 'products',
   labels: {
-    plural: 'Works 🖼️',
-    singular: 'Work',
+    plural: 'Products 🛍️',
+    singular: 'Product',
   },
   admin: {
     useAsTitle: 'title',
-    description: 'Artworks created by Sergiy Lysyy',
+    description: 'Products created by Sergiy Lysyy',
   },
   fields: [
     {
       name: 'title',
       type: 'text',
       required: true,
+    },
+    {
+      name: 'shortDescription',
+      type: 'text',
+    },
+    {
+      name: 'description',
+      type: 'richText',
+      editor: lexicalEditor({}),
+    },
+    {
+      name: 'price',
+      type: 'number',
     },
     {
       name: 'image',
@@ -26,14 +40,9 @@ export const Works: CollectionConfig = {
       name: 'isSold',
       type: 'checkbox',
       defaultValue: false,
-    },
-    {
-      name: 'width',
-      type: 'number',
-    },
-    {
-      name: 'height',
-      type: 'number',
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'slug',
@@ -45,7 +54,7 @@ export const Works: CollectionConfig = {
       hooks: {
         beforeChange: [
           ({ data }) => {
-            if (data?.title) {
+            if (data?.title && !data?.slug) {
               data.slug = data.title
                 .replace(/[^\w\s-]/g, '')
                 .replace(/\s+/g, '-')

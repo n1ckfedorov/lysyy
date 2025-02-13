@@ -1,7 +1,7 @@
 'use client';
 
-import type { Work } from '@/payload-types';
-import { Button, IconButton } from '@/components';
+import type { Product } from '@/payload-types';
+import { Button, IconButton, RichText } from '@/components';
 import { useImage } from '@/hooks/useImage';
 
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -10,40 +10,40 @@ import { useRouter } from 'next/navigation';
 import { type FC, useState } from 'react';
 import { OrderModal } from './OrderModal';
 
-type WorkWithNavigationProps = {
-  totalWorks: number;
-  allWorks: Work[];
-} & Work;
+type ProductWithNavigationProps = {
+  totalProducts: number;
+  allProducts: Product[];
+} & Product;
 
-export const WorkDetails: FC<WorkWithNavigationProps> = ({
+export const ProductDetails: FC<ProductWithNavigationProps> = ({
   title,
   image,
   isSold,
-  width,
-  height,
+  price,
   id,
-  totalWorks,
-  allWorks,
+  totalProducts,
+  allProducts,
   slug,
+  description,
 }) => {
   const router = useRouter();
   const currentId = Number(id);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const currentIndex = allWorks.findIndex(work => work.slug === slug);
-  const nextSlug = currentIndex < totalWorks - 1
-    ? allWorks[currentIndex + 1]?.slug ?? allWorks[0]?.slug
-    : allWorks[0]?.slug;
+  const currentIndex = allProducts.findIndex(product => product.slug === slug);
+  const nextSlug = currentIndex < totalProducts - 1
+    ? allProducts[currentIndex + 1]?.slug ?? allProducts[0]?.slug
+    : allProducts[0]?.slug;
   const prevSlug = currentIndex > 0
-    ? allWorks[currentIndex - 1]?.slug ?? allWorks[totalWorks - 1]?.slug
-    : allWorks[totalWorks - 1]?.slug;
+    ? allProducts[currentIndex - 1]?.slug ?? allProducts[totalProducts - 1]?.slug
+    : allProducts[totalProducts - 1]?.slug;
 
   const goToNextPage = () => {
-    router.push(`/works/${nextSlug}`);
+    router.push(`/shop/${nextSlug}`);
   };
 
   const goToPreviousPage = () => {
-    router.push(`/works/${prevSlug}`);
+    router.push(`/shop/${prevSlug}`);
   };
 
   const handleDialogOpen = () => {
@@ -60,22 +60,21 @@ export const WorkDetails: FC<WorkWithNavigationProps> = ({
           <Image src={img?.url ?? ''} alt={title ?? ''} fill className="object-cover absolute inset-0 !h-full !w-auto mx-auto" />
         </div>
 
-        <div className="shrink-0 w-full lg:w-1/3  flex flex-col gap-2 lg:border-l border-secondary/20 lg:pl-10">
+        <div className="shrink-0 w-full lg:w-1/2 flex flex-col gap-2 lg:border-l border-secondary/20 lg:pl-10">
           {isSold && <div className="text-red-500 lg:text-lg font-bold lg:mb-10  ml-auto lg:ml-0">Sold</div>}
           {!isSold && <div className="text-green-600 lg:text-lg font-bold lg:mb-10  ml-auto lg:ml-0">For Sale</div>}
 
-          <span className="lg:text-xl text-lg">Sergiy Lysyy</span>
-          <h1 className="lg:text-4xl text-3xl font-bold text-primary">{title}</h1>
-          <div className="flex flex-col gap-1">
+          <span className="text-sm">Sergiy Lysyy</span>
+          <h1 className="text-3xl font-bold text-primary mb-4">{title}</h1>
+          <RichText content={description} />
+          <div className="flex flex-col gap-1 border-t border-secondary/20 pt-4">
             <div className="flex items-center gap-2 ">
-              <span>Size:</span>
-              <span>
+              <span className="font-semibold text-lg">Price:</span>
+              <span className="font-bold text-primary text-xl">
 
-                {width}
-                x
-                {height}
+                {price}
                 {' '}
-                cm
+                $
               </span>
             </div>
           </div>
@@ -96,7 +95,7 @@ export const WorkDetails: FC<WorkWithNavigationProps> = ({
             <IconButton
               onClick={goToNextPage}
               variant="secondary"
-              disabled={currentId >= totalWorks}
+              disabled={currentId >= totalProducts}
               className="flex items-center gap-2 w-auto px-4 bg-secondary/70"
 
             >
@@ -110,7 +109,7 @@ export const WorkDetails: FC<WorkWithNavigationProps> = ({
         </div>
 
       </div>
-      {isDialogOpen && <OrderModal isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} title={title ?? ''} workId={id} />}
+      {isDialogOpen && <OrderModal isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} title={title ?? ''} productId={id} />}
 
     </>
 

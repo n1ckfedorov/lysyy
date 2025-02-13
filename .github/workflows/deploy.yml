@@ -1,0 +1,40 @@
+name: Deploy Next.js App
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Шаг 1: Настройка SSH-агента и добавление ключа
+      - name: Setup SSH agent and add private key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      # Шаг 2: Добавление known_hosts для проверки ключа сервера
+      - name: Add known_hosts entry
+        run: |
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      # Шаг 3: Принудительное обновление репозитория и деплой на сервер
+      - name: Deploy to server
+        run: |
+          ssh ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
+            cd /var/www/portfolio
+            git fetch origin master
+            git reset --hard origin/master
+            git clean -fd
+            npm ci --legacy-peer-deps
+            rm -rf .next
+            npm run build
+            pm2 restart all
+          EOF
+
+      # Шаг 4: Проверка, что сервер работает
+      - name: Verify deployment
+        run: curl -I http://${{ secrets.SERVER_IP }}

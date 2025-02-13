@@ -6,7 +6,7 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical';
 import { s3Storage } from '@payloadcms/storage-s3';
 import { buildConfig } from 'payload';
 import sharp from 'sharp';
-import { Media, Pages, Users, WorkOrders, Works } from './payload/collections';
+import { Media, Pages, ProductOrders, Products, Users, WorkOrders, Works } from './payload/collections';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -25,7 +25,7 @@ export default buildConfig({
     },
 
   },
-  collections: [Pages, Works, Media, Users, WorkOrders],
+  collections: [Pages, Works, Products, Media, Users, WorkOrders, ProductOrders],
   editor: lexicalEditor({}),
   secret: process.env.PAYLOAD_SECRET || '',
   serverURL: process.env.NEXT_PUBLIC_APP_URL || '',
