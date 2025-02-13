@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
+import { revalidatePage } from '../utilities/revalidatePage';
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -18,6 +19,17 @@ export const Pages: CollectionConfig = {
     },
     useAsTitle: 'title',
     description: 'Pages are the main content of the website.',
+  },
+  hooks: {
+    afterChange: [
+      ({ req: { payload }, doc }) => {
+        revalidatePage({
+          payload,
+          collection: 'pages',
+          doc,
+        });
+      },
+    ],
   },
   fields: [
     {
@@ -53,11 +65,11 @@ export const Pages: CollectionConfig = {
       editor: lexicalEditor({}),
     },
   ],
-  versions: {
-    drafts: {
-      autosave: {
-        interval: 375,
-      },
-    },
-  },
+  // versions: {
+  //   drafts: {
+  //     autosave: {
+  //       interval: 375,
+  //     },
+  //   },
+  // },
 };

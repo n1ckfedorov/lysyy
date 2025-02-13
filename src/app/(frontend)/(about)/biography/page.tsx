@@ -25,14 +25,10 @@ export const generateMetadata = async () => {
 export default async function Biography() {
   const page = await getPageBySlug('biography');
 
-  if (!page) {
-    throw new Error('Biography page not found');
-  }
-
   return (
     <>
       <GalleryBanner slides={bannerSlides} className="md:!mx-10 h-[calc(90dvh-76px)]" />
-      <TextContent textContent={page.content} title={page.title} subtitle={page.description ?? ''} />
+      <TextContent textContent={page?.content} title={page?.title ?? ''} subtitle={page?.description ?? ''} />
     </>
   );
 }
