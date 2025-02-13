@@ -17,11 +17,6 @@ const nextConfig = bundleAnalyzer({
       },
     ],
   },
-  unstable_sentryWebpackPluginOptions: {
-    sourcemaps: {
-      filesToDeleteAfterUpload: './.next/**/*.map',
-    },
-  },
 });
 
 const sentryWebpackPluginOptions = {

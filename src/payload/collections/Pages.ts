@@ -38,7 +38,10 @@ export const Pages: CollectionConfig = {
         beforeChange: [
           ({ data }) => {
             if (data?.title) {
-              data.slug = data.title.replace(/ /g, '-').toLowerCase();
+              data.slug = data.title
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .toLowerCase();
             }
           },
         ],

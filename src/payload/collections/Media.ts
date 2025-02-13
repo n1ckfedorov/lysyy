@@ -4,7 +4,7 @@ export const Media: CollectionConfig = {
   slug: 'media',
   admin: {
     useAsTitle: 'filename',
-    hidden: true,
+    // hidden: true,
   },
   labels: {
     plural: 'Media 🎨',

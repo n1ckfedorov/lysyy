@@ -67,9 +67,11 @@ export interface Config {
   collections: {
     pages: Page;
     works: Work;
+    products: Product;
     media: Media;
     users: User;
     'work-orders': WorkOrder;
+    'product-orders': ProductOrder;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -78,9 +80,11 @@ export interface Config {
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     works: WorksSelect<false> | WorksSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'work-orders': WorkOrdersSelect<false> | WorkOrdersSelect<true>;
+    'product-orders': ProductOrdersSelect<false> | ProductOrdersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -191,6 +195,38 @@ export interface Work {
   createdAt: string;
 }
 /**
+ * Products created by Sergiy Lysyy
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  title: string;
+  shortDescription?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  price?: number | null;
+  image: number | Media;
+  isSold?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
@@ -223,6 +259,19 @@ export interface WorkOrder {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-orders".
+ */
+export interface ProductOrder {
+  id: number;
+  name?: string | null;
+  email?: string | null;
+  message?: string | null;
+  product?: (number | null) | Product;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -237,6 +286,10 @@ export interface PayloadLockedDocument {
         value: number | Work;
       } | null)
     | ({
+        relationTo: 'products';
+        value: number | Product;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -247,6 +300,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'work-orders';
         value: number | WorkOrder;
+      } | null)
+    | ({
+        relationTo: 'product-orders';
+        value: number | ProductOrder;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -326,6 +383,21 @@ export interface WorksSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  title?: T;
+  shortDescription?: T;
+  description?: T;
+  price?: T;
+  image?: T;
+  isSold?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
@@ -366,6 +438,18 @@ export interface WorkOrdersSelect<T extends boolean = true> {
   email?: T;
   message?: T;
   work?: T;
+  createdAt?: T;
+  updatedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "product-orders_select".
+ */
+export interface ProductOrdersSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  message?: T;
+  product?: T;
   createdAt?: T;
   updatedAt?: T;
 }
