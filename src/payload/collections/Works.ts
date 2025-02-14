@@ -9,6 +9,11 @@ export const Works: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     description: 'Artworks created by Sergiy Lysyy',
+    livePreview: {
+      url: ({ data }) => {
+        return `${process.env.NEXT_PUBLIC_APP_URL}/works/${data.slug}`;
+      },
+    },
   },
   fields: [
     {
@@ -26,6 +31,9 @@ export const Works: CollectionConfig = {
       name: 'isSold',
       type: 'checkbox',
       defaultValue: false,
+      admin: {
+        position: 'sidebar',
+      },
     },
     {
       name: 'width',
@@ -56,4 +64,11 @@ export const Works: CollectionConfig = {
       },
     },
   ],
+  versions: {
+    drafts: {
+      autosave: {
+        interval: Number(process.env.PAYLOAD_AUTOSAVE_INTERVAL),
+      },
+    },
+  },
 };

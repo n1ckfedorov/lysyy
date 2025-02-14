@@ -17,7 +17,7 @@ const ProductCard = ({ product }: { product: Product }) => {
     <Link
       href={`/shop/${product.slug}`}
       key={product.id}
-      className="cursor-pointer relative overflow-hidden shadow-xl rounded-xl"
+      className="cursor-pointer relative overflow-hidden shadow-xl "
     >
 
       <Lens className="max-h-[500px]">
@@ -45,9 +45,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           Details
         </Button>
         {product.isSold && (
-          <div className="absolute top-4 z-30 right-4 bg-red-500 text-white text-sm font-bold py-1 px-3 rounded-full shadow-md">
-            Sold Out
-          </div>
+          <span className="flex text-sm z-30 px-2 py-1 absolute top-0 right-0 bg-primary text-white shadow-2xl">Sold Out</span>
         )}
       </div>
     </Link>
@@ -85,21 +83,20 @@ const ShopSection = ({ products }: { products: Product[] }) => {
     <section className="container py-10">
       <div className="flex items-start justify-between mb-4 md:mb-10 gap-2 md:flex-col">
         <h1 className="text-5xl font-bold  text-secondary">Shop</h1>
-        <div className="flex justify-end ml-auto">
-          <Select onValueChange={handleFilterChange}>
-
-            <SelectTrigger className="w-auto min-w-[120px]">
-
-              <SelectValue placeholder="Show all" />
-
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value="sold">Sold</SelectItem>
-              <SelectItem value="in-stock">In Stock</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        {products.length > 0 && (
+          <div className="flex justify-end ml-auto">
+            <Select onValueChange={handleFilterChange}>
+              <SelectTrigger className="w-auto min-w-[100px]">
+                <SelectValue placeholder="Show all" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="sold">Sold</SelectItem>
+                <SelectItem value="in-stock">In Stock</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
 
       {isLoading && (

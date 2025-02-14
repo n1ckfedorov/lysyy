@@ -1,18 +1,18 @@
 import type { CollectionConfig } from 'payload';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
 
-export const Products: CollectionConfig = {
-  slug: 'products',
+export const News: CollectionConfig = {
+  slug: 'news',
   labels: {
-    plural: 'Products 🛍️',
-    singular: 'Product',
+    plural: 'News 📰',
+    singular: 'News',
   },
   admin: {
     useAsTitle: 'title',
-    description: 'Products created by Sergiy Lysyy',
+    description: 'News articles',
     livePreview: {
       url: ({ data }) => {
-        return `${process.env.NEXT_PUBLIC_APP_URL}/shop/${data.slug}`;
+        return `${process.env.NEXT_PUBLIC_APP_URL}/news/${data.slug}`;
       },
     },
   },
@@ -23,31 +23,15 @@ export const Products: CollectionConfig = {
       required: true,
     },
     {
-      name: 'shortDescription',
-      type: 'text',
-    },
-    {
-      name: 'description',
+      name: 'content',
       type: 'richText',
       editor: lexicalEditor({}),
-    },
-    {
-      name: 'price',
-      type: 'number',
     },
     {
       name: 'image',
       type: 'upload',
       relationTo: 'media',
       required: true,
-    },
-    {
-      name: 'isSold',
-      type: 'checkbox',
-      defaultValue: false,
-      admin: {
-        position: 'sidebar',
-      },
     },
     {
       name: 'slug',

@@ -1,9 +1,11 @@
 import type { Metadata } from 'next';
 
-import { RefreshRouteOnSave } from '@/components/RefreshRouteOnSave';
+import { Toaster } from '@/components';
 
+import { RefreshRouteOnSave } from '@/components/RefreshRouteOnSave';
 import { Sprite } from '@/components/Sprite';
 import { BaseTemplate } from '@/templates/BaseTemplate';
+
 import { Karla, Playfair_Display, Raleway } from 'next/font/google';
 import '@/styles/global.css';
 
@@ -67,6 +69,7 @@ export default async function RootLayout(props: {
         <BaseTemplate>
           {props.children}
         </BaseTemplate>
+        <Toaster />
       </body>
     </html>
   );

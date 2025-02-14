@@ -1,11 +1,13 @@
 'use client';
 
 import type { FC } from 'react';
-
 import { Button, Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Textarea } from '@/components';
+
 import sendRequest from '@/utils/Api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+
 import { z } from 'zod';
 
 const schema = z.object({
@@ -37,12 +39,18 @@ const OrderModal: FC<OrderModalProps> = ({ isDialogOpen, setIsDialogOpen, title,
 
   const handleSubmit = async (data: z.infer<typeof schema>) => {
     try {
-      const emailResponse = await sendRequest('/api/email', 'POST', data);
+      const emailResponse = await sendRequest('/api/email', 'POST', {
+        ...data,
+        productName: title,
+        type: 'workshop',
+      });
 
       await sendRequest('/api/create-work-order', 'POST', {
         ...data,
         work: { id: workId },
       });
+
+      toast.success('Order sent successfully');
 
       if (emailResponse.response.data.id) {
         setIsDialogOpen(false);

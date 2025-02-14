@@ -11,7 +11,6 @@ import { type FC, useState } from 'react';
 import { OrderModal } from './OrderModal';
 
 type WorkWithNavigationProps = {
-  totalWorks: number;
   allWorks: Work[];
 } & Work;
 
@@ -22,7 +21,6 @@ export const WorkDetails: FC<WorkWithNavigationProps> = ({
   width,
   height,
   id,
-  totalWorks,
   allWorks,
   slug,
 }) => {
@@ -31,12 +29,12 @@ export const WorkDetails: FC<WorkWithNavigationProps> = ({
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const currentIndex = allWorks.findIndex(work => work.slug === slug);
-  const nextSlug = currentIndex < totalWorks - 1
+  const nextSlug = currentIndex < allWorks.length - 1
     ? allWorks[currentIndex + 1]?.slug ?? allWorks[0]?.slug
     : allWorks[0]?.slug;
   const prevSlug = currentIndex > 0
-    ? allWorks[currentIndex - 1]?.slug ?? allWorks[totalWorks - 1]?.slug
-    : allWorks[totalWorks - 1]?.slug;
+    ? allWorks[currentIndex - 1]?.slug ?? allWorks[allWorks.length - 1]?.slug
+    : allWorks[allWorks.length - 1]?.slug;
 
   const goToNextPage = () => {
     router.push(`/works/${nextSlug}`);
