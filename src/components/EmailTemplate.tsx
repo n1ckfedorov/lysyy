@@ -4,14 +4,27 @@ type EmailTemplateProps = {
   name: string;
   email: string;
   message: string;
-  workName: string;
+  productName?: string;
+  type: 'order' | 'workshop' | 'contact';
+};
+
+const getTitle = (type: EmailTemplateProps['type'], productName?: string) => {
+  switch (type) {
+    case 'order':
+      return `New order for ${productName}`;
+    case 'workshop':
+      return `New workshop order for ${productName}`;
+    case 'contact':
+      return 'New contact request';
+  }
 };
 
 export const EmailTemplate = ({
   name,
   email,
   message,
-  workName,
+  productName,
+  type,
 }: EmailTemplateProps) => (
   <div style={{
     fontFamily: 'Arial, sans-serif',
@@ -19,8 +32,7 @@ export const EmailTemplate = ({
   }}
   >
     <h1 style={{ color: '#333' }}>
-      New Order:
-      {workName}
+      {getTitle(type, productName)}
     </h1>
     <div style={{ marginTop: '20px' }}>
       <p>

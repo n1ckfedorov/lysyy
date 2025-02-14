@@ -30,7 +30,7 @@ const navItems = [
 
 const NavLink = ({ label, href, className }: { label: string; href: string; className?: string }) => {
   const pathname = usePathname();
-  const isActive = pathname?.startsWith(href) || pathname === href;
+  const isActive = (pathname?.startsWith(href) && pathname !== '/workshop') || pathname === href;
 
   return (
     <Link href={href} className={cn('block px-4 py-2 text-lg font-medium hover:text-primary', isActive && 'text-primary', className)}>
@@ -107,7 +107,7 @@ export const Header = () => {
 
           <div className="flex items-center justify-between">
 
-            <Link href="/" className="text-xl font-bold">
+            <Link href="/" className="text-2xl  font-tertiary">
               Sergiy Lysyy
             </Link>
 

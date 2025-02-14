@@ -13,7 +13,7 @@ type TextContentProps = {
 export const TextContent: FC<TextContentProps> = ({ className, textContent, title, subtitle }) => {
   return (
 
-    <div className={cn(' mx-auto px-6 py-16 max-w-full overflow-x-hidden', className)}>
+    <div className={cn('mx-auto  py-10 md:py-16  max-w-full overflow-x-hidden', className)}>
       <div className="container">
 
         <h1 className="text-4xl font-bold">{title}</h1>
@@ -23,7 +23,7 @@ export const TextContent: FC<TextContentProps> = ({ className, textContent, titl
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div className="flex flex-col gap-4">
-            {textContent && <RichText content={textContent} className="mt-10 rich-text" />}
+            {textContent && <RichText content={textContent} className="mt-4 md:mt-10 rich-text" />}
 
           </div>
           <div className="flex flex-col gap-20 lg:items-end h-full items-center">

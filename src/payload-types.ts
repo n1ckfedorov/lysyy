@@ -69,9 +69,12 @@ export interface Config {
     works: Work;
     products: Product;
     media: Media;
+    workshop: Workshop;
+    news: News;
     users: User;
     'work-orders': WorkOrder;
     'product-orders': ProductOrder;
+    'contact-form': ContactForm;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -82,9 +85,12 @@ export interface Config {
     works: WorksSelect<false> | WorksSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    workshop: WorkshopSelect<false> | WorkshopSelect<true>;
+    news: NewsSelect<false> | NewsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'work-orders': WorkOrdersSelect<false> | WorkOrdersSelect<true>;
     'product-orders': ProductOrdersSelect<false> | ProductOrdersSelect<true>;
+    'contact-form': ContactFormSelect<false> | ContactFormSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -157,6 +163,7 @@ export interface Page {
   };
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -192,6 +199,7 @@ export interface Work {
   slug: string;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * Products created by Sergiy Lysyy
@@ -224,6 +232,65 @@ export interface Product {
   slug: string;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "workshop".
+ */
+export interface Workshop {
+  id: number;
+  year: string;
+  subtitle?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  images?: (number | Media)[] | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * News articles
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news".
+ */
+export interface News {
+  id: number;
+  title: string;
+  content?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  image: number | Media;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -271,6 +338,18 @@ export interface ProductOrder {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-form".
+ */
+export interface ContactForm {
+  id: number;
+  name?: string | null;
+  email?: string | null;
+  message?: string | null;
+  createdAt: string;
+  updatedAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -293,6 +372,14 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
+        relationTo: 'workshop';
+        value: number | Workshop;
+      } | null)
+    | ({
+        relationTo: 'news';
+        value: number | News;
+      } | null)
+    | ({
         relationTo: 'users';
         value: number | User;
       } | null)
@@ -303,6 +390,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'product-orders';
         value: number | ProductOrder;
+      } | null)
+    | ({
+        relationTo: 'contact-form';
+        value: number | ContactForm;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -364,6 +455,7 @@ export interface PagesSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -378,6 +470,7 @@ export interface WorksSelect<T extends boolean = true> {
   slug?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -393,6 +486,7 @@ export interface ProductsSelect<T extends boolean = true> {
   slug?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -410,6 +504,32 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "workshop_select".
+ */
+export interface WorkshopSelect<T extends boolean = true> {
+  year?: T;
+  subtitle?: T;
+  description?: T;
+  images?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "news_select".
+ */
+export interface NewsSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  image?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -448,6 +568,17 @@ export interface ProductOrdersSelect<T extends boolean = true> {
   email?: T;
   message?: T;
   product?: T;
+  createdAt?: T;
+  updatedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-form_select".
+ */
+export interface ContactFormSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  message?: T;
   createdAt?: T;
   updatedAt?: T;
 }

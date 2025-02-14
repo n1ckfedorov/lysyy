@@ -5,7 +5,6 @@ import type { Work } from '@/payload-types';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components';
 import { useImage } from '@/hooks/useImage';
-import { cn } from '@/lib/utils';
 import { Masonry } from '@mui/lab';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
@@ -21,8 +20,10 @@ const WorkCard = ({ work }: { work: Work }) => {
       <div className="absolute inset-0 flex items-center justify-center bg-black/60 text-white text-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-col gap-2">
         <span className="text-sm ">Sergiy Lysyy</span>
         <span className="font-bold text-secondary">{work.title}</span>
-        <div className={cn('text-white text-sm px-2 py-1 rounded-full absolute top-4 right-4', work.isSold && 'bg-red-500')}>{work.isSold && 'Sold Out'}</div>
       </div>
+      {work.isSold && (
+        <span className="flex text-sm px-2 py-1 absolute top-0 right-0 bg-primary text-white shadow-2xl">Sold Out</span>
+      )}
     </Link>
 
   );
@@ -59,21 +60,20 @@ const WorksSection = ({ works }: { works: Work[] }) => {
     <section className="container py-10">
       <div className="flex items-start justify-between mb-4 md:mb-10 gap-2 md:flex-col">
         <h1 className="text-5xl font-bold  text-secondary">Works</h1>
-        <div className="flex justify-end ml-auto">
-          <Select onValueChange={handleFilterChange}>
-
-            <SelectTrigger className="w-auto min-w-[120px]">
-
-              <SelectValue placeholder="Show all" />
-
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value="sold">Sold</SelectItem>
-              <SelectItem value="in-stock">In Stock</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+        {works.length > 0 && (
+          <div className="flex justify-end ml-auto">
+            <Select onValueChange={handleFilterChange}>
+              <SelectTrigger className="w-auto min-w-[100px]">
+                <SelectValue placeholder="Show all" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All</SelectItem>
+                <SelectItem value="sold">Sold</SelectItem>
+                <SelectItem value="in-stock">In Stock</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
 
       {isLoading && (

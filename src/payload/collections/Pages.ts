@@ -32,12 +32,14 @@ export const Pages: CollectionConfig = {
     {
       name: 'slug',
       type: 'text',
-      hidden: true,
+      admin: {
+        position: 'sidebar',
+      },
       required: true,
       hooks: {
         beforeChange: [
           ({ data }) => {
-            if (data?.title) {
+            if (data?.title && !data?.slug) {
               data.slug = data.title
                 .replace(/[^\w\s-]/g, '')
                 .replace(/\s+/g, '-')
@@ -53,11 +55,11 @@ export const Pages: CollectionConfig = {
       editor: lexicalEditor({}),
     },
   ],
-  // versions: {
-  //   drafts: {
-  //     autosave: {
-  //       interval: 375,
-  //     },
-  //   },
-  // },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: Number(process.env.PAYLOAD_AUTOSAVE_INTERVAL),
+      },
+    },
+  },
 };

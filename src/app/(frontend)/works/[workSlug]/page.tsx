@@ -18,7 +18,6 @@ export default async function WorkPage({ params }: { params: Promise<{ workSlug:
     notFound();
   }
 
-  const totalWorks = await getWorks();
   const work = await getWorkBySlug(workSlug);
   const allWorks = await getWorks();
 
@@ -29,7 +28,6 @@ export default async function WorkPage({ params }: { params: Promise<{ workSlug:
   return (
     <WorkDetails
       {...work}
-      totalWorks={totalWorks.length}
       allWorks={allWorks}
     />
   );

@@ -6,10 +6,10 @@ import type { SerializedListItemNode, SerializedListNode } from '@lexical/list';
 import type { SerializedHeadingNode } from '@lexical/rich-text';
 import type { LinkFields, SerializedLinkNode } from '@payloadcms/richtext-lexical';
 import type { SerializedElementNode, SerializedLexicalNode, SerializedTextNode } from 'lexical';
-
 import { cn } from '@/lib/utils';
-
 import escapeHTML from 'escape-html';
+
+import Image from 'next/image';
 import Link from 'next/link';
 
 import React, { type JSX } from 'react';
@@ -155,6 +155,10 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
           }
           case 'quote': {
             return <blockquote key={index} className="italic border-l-4 pl-4 text-gray-700">{serializedChildren}</blockquote>;
+          }
+          case 'upload': {
+            const node = _node as any;
+            return <Image src={node.value.url} alt="image" key={index} height={node.value.height} width={node.value.width} />;
           }
           case 'link': {
             const node = _node as SerializedLinkNode;
