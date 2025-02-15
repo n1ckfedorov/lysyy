@@ -30,6 +30,12 @@ export const Pages: CollectionConfig = {
       type: 'text',
     },
     {
+      name: 'mainImages',
+      type: 'upload',
+      relationTo: 'media',
+      hasMany: true,
+    },
+    {
       name: 'slug',
       type: 'text',
       admin: {

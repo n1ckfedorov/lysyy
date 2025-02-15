@@ -1,19 +1,21 @@
-import type { Metadata } from 'next';
-import { PhotoBanner, TextContent } from '@/components';
+import { PageRender } from '@/components';
+import { getPageBySlug } from '@/services';
 
-export const metadata: Metadata = {
-  title: 'Exhibitions',
-  description: 'Exhibitions of Sergiy Lysyy',
+export const generateMetadata = async () => {
+  const page = await getPageBySlug('exhibitions');
+
+  return {
+    title: page?.meta?.title,
+    description: page?.meta?.description,
+  };
 };
 
 export default async function Exhibitions() {
-  return (
-    <>
-      <PhotoBanner image="https://watercolorsjanmin.com/wp-content/themes/yootheme/cache/f5/whatsapp-image-2022-05-11-at-3.23.10-pm-f52fe088.webp" />
-      <TextContent
-        title="Exhibitions"
-        subtitle="Listing of  group exhibitions in the last years"
-      />
-    </>
-  );
+  const page = await getPageBySlug('exhibitions');
+
+  if (!page) {
+    return <div>Page not found</div>;
+  }
+
+  return <PageRender page={page} />;
 }
