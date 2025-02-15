@@ -24,6 +24,7 @@ export default antfu({
     'migrations/**/*',
     'next-env.d.ts',
     'src/payload-types.ts',
+    'src/app/(payload)/admin/importMap.js',
   ],
 }, jsxA11y.flatConfigs.recommended, {
   plugins: {

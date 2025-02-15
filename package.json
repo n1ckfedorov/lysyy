@@ -15,7 +15,8 @@
     "commit": "cz",
     "prepare": "husky",
     "clean": "rimraf .next out",
-    "sprite:build": "node ./sprite/sprite.mjs --input-type=module"
+    "sprite:build": "node ./sprite/sprite.mjs --input-type=module",
+    "sync-media": "node scripts/syncMedia.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.2.16",
@@ -41,10 +42,12 @@
     "@spotlightjs/spotlight": "^2.10.2",
     "@t3-oss/env-nextjs": "^0.11.1",
     "@tabler/icons-react": "^3.30.0",
+    "axios": "^1.7.9",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "escape-html": "^1.0.3",
     "framer-motion": "^12.4.2",
+    "fs": "^0.0.1-security",
     "graphql": "^16.10.0",
     "lexical": "0.21.0",
     "lucide-react": "^0.475.0",
