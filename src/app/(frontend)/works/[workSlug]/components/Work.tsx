@@ -2,8 +2,9 @@
 
 import type { Work } from '@/payload-types';
 import { Button, IconButton } from '@/components';
-import { useImage } from '@/hooks/useImage';
+import { GoogleCaptchaWrapper } from '@/components/GoogleCaptchaWrapper';
 
+import { useImage } from '@/hooks/useImage';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -108,7 +109,12 @@ export const WorkDetails: FC<WorkWithNavigationProps> = ({
         </div>
 
       </div>
-      {isDialogOpen && <OrderModal isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} title={title ?? ''} workId={id} />}
+      {isDialogOpen
+      && (
+        <GoogleCaptchaWrapper>
+          <OrderModal isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} title={title ?? ''} workId={id} />
+        </GoogleCaptchaWrapper>
+      )}
 
     </>
 

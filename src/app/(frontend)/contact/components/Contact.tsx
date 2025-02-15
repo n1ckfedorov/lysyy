@@ -1,13 +1,12 @@
 'use client';
 
 import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Textarea } from '@/components';
-import { verifyReCaptcha } from '@/components/GoogleCaptchaWrapper';
+import { useReCaptcha } from '@/hooks/useReCaptcha';
 import sendRequest from '@/utils/Api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -19,9 +18,8 @@ const schema = z.object({
 });
 
 export const Contact = () => {
-  const { executeRecaptcha } = useGoogleReCaptcha();
+  const { verify, error: captchaError, isVerifying } = useReCaptcha();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [captchaError, setCaptchaError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -44,9 +42,9 @@ export const Contact = () => {
         ...data,
       });
 
-      toast.success('Contact form sent successfully');
-
       if (emailResponse.response?.data?.id) {
+        toast.success('Contact form sent successfully');
+
         form.reset();
       }
     } catch (error) {
@@ -60,13 +58,9 @@ export const Contact = () => {
   const handleSubmitForm = async (data: z.infer<typeof schema>) => {
     try {
       setIsSubmitting(true);
-      setCaptchaError(null);
+      const token = await verify('contactFormSubmit');
 
-      const token = await verifyReCaptcha(executeRecaptcha, setCaptchaError);
       await submitEnquiryForm({ ...data, gReCaptchaToken: token });
-
-      toast.success('Message sent successfully');
-      form.reset();
     } catch (error) {
       const errorMessage = error instanceof Error
         ? error.message
@@ -146,9 +140,9 @@ export const Contact = () => {
               <Button
                 type="submit"
                 className="w-full mt-4"
-                disabled={isSubmitting || !!captchaError}
+                disabled={isSubmitting || isVerifying || !!captchaError}
               >
-                {isSubmitting ? 'Sending...' : 'Send'}
+                {isSubmitting || isVerifying ? 'Sending...' : 'Send'}
               </Button>
             </form>
           </Form>
