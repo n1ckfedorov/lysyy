@@ -137,6 +137,7 @@ export interface Page {
   id: number;
   title: string;
   description?: string | null;
+  mainImages?: (number | Media)[] | null;
   slug: string;
   content?: {
     root: {
@@ -444,6 +445,7 @@ export interface PayloadMigration {
 export interface PagesSelect<T extends boolean = true> {
   title?: T;
   description?: T;
+  mainImages?: T;
   slug?: T;
   content?: T;
   meta?:

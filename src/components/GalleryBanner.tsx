@@ -92,23 +92,27 @@ export const GalleryBanner = ({ slides, hasLens = false, className }: { slides: 
 
     >
       {slides.map(item => renderSlide({ ...item, hovering, setHovering, hasLens }))}
-      <IconButton
-        variant="primary"
-        ref={prevRef}
-        className="z-40  absolute top-1/2 left-10 -translate-y-1/2 opacity-0 group-hover:opacity-100 "
-      >
+      {slides.length > 1 && (
+        <>
+          <IconButton
+            variant="primary"
+            ref={prevRef}
+            className="z-40  absolute top-1/2 left-10 -translate-y-1/2 opacity-0 group-hover:opacity-100 "
+          >
 
-        <ChevronLeft className="size-5" />
-      </IconButton>
-      <IconButton
-        variant="primary"
-        ref={nextRef}
-        className="z-40 absolute  top-1/2 right-10 -translate-y-1/2 opacity-0 group-hover:opacity-100 "
+            <ChevronLeft className="size-5" />
+          </IconButton>
+          <IconButton
+            variant="primary"
+            ref={nextRef}
+            className="z-40 absolute  top-1/2 right-10 -translate-y-1/2 opacity-0 group-hover:opacity-100 "
 
-      >
+          >
 
-        <ChevronRight className="size-5" />
-      </IconButton>
+            <ChevronRight className="size-5" />
+          </IconButton>
+        </>
+      )}
 
       <div className="absolute inset-0 z-20 bg-gradient-to-r from-black/20 to-transparent pointer-events-none" />
 

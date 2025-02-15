@@ -6,3 +6,17 @@ export const useImage = (image: number | Media) => {
   }
   return image;
 };
+
+export const useImages = (images: (number | Media)[]) => {
+  if (!images) {
+    return [];
+  }
+
+  for (const image of images) {
+    if (typeof image === 'number') {
+      return null;
+    }
+  }
+
+  return images.map(useImage);
+};
