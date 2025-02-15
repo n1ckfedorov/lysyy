@@ -6,10 +6,8 @@ export const Users: CollectionConfig = {
     plural: 'Users 🧑‍💻',
     singular: 'User',
   },
-
   admin: {
     useAsTitle: 'email',
-    hidden: true,
   },
   auth: true,
   fields: [
