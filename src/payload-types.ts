@@ -266,6 +266,7 @@ export interface Workshop {
     };
     [k: string]: unknown;
   } | null;
+  slug: string;
   images?: (number | Media)[] | null;
   updatedAt: string;
   createdAt: string;
@@ -619,6 +620,7 @@ export interface WorkshopSelect<T extends boolean = true> {
   year?: T;
   subtitle?: T;
   description?: T;
+  slug?: T;
   images?: T;
   updatedAt?: T;
   createdAt?: T;

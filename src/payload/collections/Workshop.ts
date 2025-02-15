@@ -12,9 +12,9 @@ export const Workshop: CollectionConfig = {
   admin: {
     useAsTitle: 'year',
     livePreview: {
-      url: ({ data, req }) => {
+      url: ({ req }) => {
         const path = generatePreviewPath({
-          slug: typeof data?.slug === 'string' ? data.slug : '',
+          slug: '',
           collection: 'workshop',
           req,
         });
@@ -38,6 +38,26 @@ export const Workshop: CollectionConfig = {
       name: 'description',
       type: 'richText',
       editor: lexicalEditor({}),
+    },
+    {
+      name: 'slug',
+      type: 'text',
+      admin: {
+        position: 'sidebar',
+      },
+      required: true,
+      hooks: {
+        beforeChange: [
+          ({ data }) => {
+            if (data?.year && !data?.slug) {
+              data.slug = data.year
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .toLowerCase();
+            }
+          },
+        ],
+      },
     },
     {
       name: 'images',
