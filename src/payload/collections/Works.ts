@@ -1,4 +1,6 @@
 import type { CollectionConfig } from 'payload';
+import { populatePublishedAt, revalidateDelete, revalidatePage } from '../hooks';
+import { generatePreviewPath } from '../utils/generatePreviewPath';
 
 export const Works: CollectionConfig = {
   slug: 'works',
@@ -10,8 +12,14 @@ export const Works: CollectionConfig = {
     useAsTitle: 'title',
     description: 'Artworks created by Sergiy Lysyy',
     livePreview: {
-      url: ({ data }) => {
-        return `${process.env.NEXT_PUBLIC_APP_URL}/works/${data.slug}`;
+      url: ({ data, req }) => {
+        const path = generatePreviewPath({
+          slug: typeof data?.slug === 'string' ? data.slug : '',
+          collection: 'works',
+          req,
+        });
+
+        return path;
       },
     },
   },
@@ -64,11 +72,18 @@ export const Works: CollectionConfig = {
       },
     },
   ],
+  hooks: {
+    afterChange: [revalidatePage],
+    beforeChange: [populatePublishedAt],
+    afterDelete: [revalidateDelete],
+  },
   versions: {
     drafts: {
       autosave: {
         interval: Number(process.env.PAYLOAD_AUTOSAVE_INTERVAL),
       },
+      schedulePublish: true,
     },
+    maxPerDoc: 50,
   },
 };

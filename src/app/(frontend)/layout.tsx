@@ -9,7 +9,7 @@ import { BaseTemplate } from '@/templates/BaseTemplate';
 import { Karla, Playfair_Display, Raleway } from 'next/font/google';
 import '@/styles/global.css';
 
-export const revalidate = 60;
+export const revalidate = 600;
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin'],
