@@ -1,6 +1,5 @@
 {
   "name": "next-js-boilerplate",
-  "type": "module",
   "version": "3.61.0",
   "author": "Nick",
   "scripts": {
@@ -17,7 +16,7 @@
     "prepare": "husky",
     "clean": "rimraf .next out",
     "sprite:build": "node ./sprite/sprite.mjs --input-type=module",
-    "sync-media": "node scripts/syncMedia.js"
+    "sync-media": "node scripts/syncMedia.mjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.2.16",
