@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
+import { populatePublishedAt, revalidateDelete, revalidatePage } from '../hooks';
+import { generatePreviewPath } from '../utils/generatePreviewPath';
 
 export const Workshop: CollectionConfig = {
   slug: 'workshop',
@@ -10,8 +12,14 @@ export const Workshop: CollectionConfig = {
   admin: {
     useAsTitle: 'year',
     livePreview: {
-      url: () => {
-        return `${process.env.NEXT_PUBLIC_APP_URL}/workshop`;
+      url: ({ data, req }) => {
+        const path = generatePreviewPath({
+          slug: typeof data?.slug === 'string' ? data.slug : '',
+          collection: 'workshop',
+          req,
+        });
+
+        return path;
       },
     },
   },
@@ -38,11 +46,18 @@ export const Workshop: CollectionConfig = {
       hasMany: true,
     },
   ],
+  hooks: {
+    afterChange: [revalidatePage],
+    beforeChange: [populatePublishedAt],
+    afterDelete: [revalidateDelete],
+  },
   versions: {
     drafts: {
       autosave: {
         interval: Number(process.env.PAYLOAD_AUTOSAVE_INTERVAL),
       },
+      schedulePublish: true,
     },
+    maxPerDoc: 50,
   },
 };

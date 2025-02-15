@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
+import { populatePublishedAt, revalidateDelete, revalidatePage } from '../hooks';
+import { generatePreviewPath } from '../utils/generatePreviewPath';
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -11,9 +13,14 @@ export const Pages: CollectionConfig = {
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
-      url: ({ data }) => {
-        const isHomePage = data.slug === 'home';
-        return `${process.env.NEXT_PUBLIC_APP_URL}${!isHomePage ? `/${data.slug}` : ''}`;
+      url: ({ data, req }) => {
+        const path = generatePreviewPath({
+          slug: typeof data?.slug === 'string' ? data.slug : '',
+          collection: 'pages',
+          req,
+        });
+
+        return path;
       },
     },
     useAsTitle: 'title',
@@ -61,11 +68,18 @@ export const Pages: CollectionConfig = {
       editor: lexicalEditor({}),
     },
   ],
+  hooks: {
+    afterChange: [revalidatePage],
+    beforeChange: [populatePublishedAt],
+    afterDelete: [revalidateDelete],
+  },
   versions: {
     drafts: {
       autosave: {
         interval: Number(process.env.PAYLOAD_AUTOSAVE_INTERVAL),
       },
+      schedulePublish: true,
     },
+    maxPerDoc: 50,
   },
 };

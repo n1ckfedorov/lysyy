@@ -1,5 +1,7 @@
 import type { CollectionConfig } from 'payload';
 import { lexicalEditor } from '@payloadcms/richtext-lexical';
+import { populatePublishedAt, revalidateDelete, revalidatePage } from '../hooks';
+import { generatePreviewPath } from '../utils/generatePreviewPath';
 
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -11,8 +13,14 @@ export const Products: CollectionConfig = {
     useAsTitle: 'title',
     description: 'Products created by Sergiy Lysyy',
     livePreview: {
-      url: ({ data }) => {
-        return `${process.env.NEXT_PUBLIC_APP_URL}/shop/${data.slug}`;
+      url: ({ data, req }) => {
+        const path = generatePreviewPath({
+          slug: typeof data?.slug === 'string' ? data.slug : '',
+          collection: 'products',
+          req,
+        });
+
+        return path;
       },
     },
   },
@@ -70,11 +78,18 @@ export const Products: CollectionConfig = {
       },
     },
   ],
+  hooks: {
+    afterChange: [revalidatePage],
+    beforeChange: [populatePublishedAt],
+    afterDelete: [revalidateDelete],
+  },
   versions: {
     drafts: {
       autosave: {
         interval: Number(process.env.PAYLOAD_AUTOSAVE_INTERVAL),
       },
+      schedulePublish: true,
     },
+    maxPerDoc: 50,
   },
 };
