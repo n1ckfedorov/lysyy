@@ -1,4 +1,5 @@
 import { PhotoBanner } from '@/components';
+import { GoogleCaptchaWrapper } from '@/components/GoogleCaptchaWrapper';
 import { Contact } from './components/Contact';
 
 const contactImage = {
@@ -6,11 +7,13 @@ const contactImage = {
   alt: 'Contact',
 };
 
-export default async function ContactPage() {
+export default function ContactPage() {
   return (
     <>
       <PhotoBanner {...contactImage} className="h-[50dvh]" title="Contact with Sergiy Lysyy" />
-      <Contact />
+      <GoogleCaptchaWrapper>
+        <Contact />
+      </GoogleCaptchaWrapper>
     </>
   );
 }

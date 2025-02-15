@@ -1,10 +1,13 @@
 'use client';
 
 import { Button, Form, FormControl, FormField, FormItem, FormLabel, FormMessage, Input, Textarea } from '@/components';
+import { verifyReCaptcha } from '@/components/GoogleCaptchaWrapper';
 import sendRequest from '@/utils/Api';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
@@ -16,6 +19,10 @@ const schema = z.object({
 });
 
 export const Contact = () => {
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaError, setCaptchaError] = useState<string | null>(null);
+
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -25,10 +32,10 @@ export const Contact = () => {
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof schema>) => {
+  const submitEnquiryForm = async (data: z.infer<typeof schema> & { gReCaptchaToken: string }) => {
     try {
+      setIsSubmitting(true);
       const emailResponse = await sendRequest('/api/email', 'POST', {
-
         ...data,
         type: 'contact',
       });
@@ -39,11 +46,36 @@ export const Contact = () => {
 
       toast.success('Contact form sent successfully');
 
-      if (emailResponse.response.data.id) {
+      if (emailResponse.response?.data?.id) {
         form.reset();
       }
     } catch (error) {
       console.error('There was a problem sending the email:', error);
+      toast.error('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleSubmitForm = async (data: z.infer<typeof schema>) => {
+    try {
+      setIsSubmitting(true);
+      setCaptchaError(null);
+
+      const token = await verifyReCaptcha(executeRecaptcha, setCaptchaError);
+      await submitEnquiryForm({ ...data, gReCaptchaToken: token });
+
+      toast.success('Message sent successfully');
+      form.reset();
+    } catch (error) {
+      const errorMessage = error instanceof Error
+        ? error.message
+        : 'Failed to send message. Please try again.';
+
+      toast.error(errorMessage);
+      console.error('Form submission error:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -61,7 +93,7 @@ export const Contact = () => {
         <div className="lg:max-w-xl w-full border-t pt-4 border-secondary/20 shrink-0 grow ">
           <span className="text-2xl my-4 flex text-center">Or fill the form below:</span>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(handleSubmitForm)} className="space-y-4">
               <FormField
                 control={form.control}
                 name="name"
@@ -104,8 +136,19 @@ export const Contact = () => {
 
                 )}
               />
-              <Button type="submit" className="w-full mt-4">
-                Send
+
+              {captchaError && (
+                <div className="text-destructive text-sm mt-2">
+                  {captchaError}
+                </div>
+              )}
+
+              <Button
+                type="submit"
+                className="w-full mt-4"
+                disabled={isSubmitting || !!captchaError}
+              >
+                {isSubmitting ? 'Sending...' : 'Send'}
               </Button>
             </form>
           </Form>
