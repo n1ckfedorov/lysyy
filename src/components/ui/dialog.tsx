@@ -79,7 +79,7 @@ const DialogTitle = ({ ref, className, ...props }: React.ComponentPropsWithoutRe
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      'text-lg font-semibold leading-none tracking-tight',
+      'text-lg font-semibold leading-none tracking-tight max-w-[80%]',
       className,
     )}
     {...props}
