@@ -4,7 +4,7 @@ const collectionPrefixMap: Partial<Record<CollectionSlug, string>> = {
   works: '/works',
   news: '/news',
   workshop: '/workshop',
-  products: '/products',
+  products: '/shop',
   pages: '',
 };
 
