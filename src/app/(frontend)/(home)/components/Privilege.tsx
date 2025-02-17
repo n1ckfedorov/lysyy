@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 
 export const Privilege = () => {
   return (
@@ -9,37 +10,64 @@ export const Privilege = () => {
 
       <div className="flex flex-col items-center  gap-4">
         <div className="w-full bg-white rounded-lg flex items-center justify-center h-40">
-          <Image src="https://watercolorsjanmin.com/wp-content/themes/yootheme/cache/05/Logo-Daniel-Smith-smaller-2-05d3679c.webp" alt="Privilege 1" width={100} height={100} />
+          <Image src="/assets/images/rosa.png" alt="Privilege 1" width={400} height={100} />
         </div>
         <div className="flex flex-col items-center gap-2">
           <h3 className="text-lg font-bold">
-            Ambassador of Daniel Smith paints
+            Ambassador of Rosa
           </h3>
 
-          <p className="text-gray-600 text-center">Read more on Jan’s Ambassador role for Daniel Smith watrecolor paints, the paints Jan loves to use the most on Jan Min & Daniel Smith</p>
+          <p className="text-gray-600 text-center">
+            Sergiy Lysyy is an Ambassador of Rosa Paints.
+            {' '}
+            <br />
+            For more information please visit:
+            <br />
+            <Link href="https://rosa.ua/uk/content/84-sergiy-lysyy-art-colaboration" target="_blank" className="text-blue-500 hover:underline">
+              Rosa Paints
+            </Link>
+          </p>
         </div>
       </div>
       <div className="flex flex-col items-center  gap-4">
         <div className="w-full bg-white rounded-lg flex items-center justify-center h-40">
-          <Image src="https://watercolorsjanmin.com/wp-content/themes/yootheme/cache/3e/iws-holland-e1707310095995-3e938b85.webp" alt="Privilege 2" width={100} height={100} />
+          <Image src="/assets/images/national-water.png" alt="Privilege 2" width={200} height={200} />
         </div>
         <div className="flex flex-col items-center gap-2">
           <h3 className="text-lg font-bold">
-            International Watercolor Society Holland
+            National Watercolor Society
           </h3>
 
-          <p className="text-gray-600 text-center">Jan has been a board member of the International Watercolor Society in Holland for many years and currently is its president. For more information please visit: IWS Holland website</p>
+          <p className="text-gray-600 text-center">
+            Sergiy Lysyy is a signature member of the National Watercolor Society in the USA.
+            {' '}
+            <br />
+            For more information please visit:
+            <br />
+            {' '}
+            <Link href="https://www.nationalwatercolorsociety.org/" target="_blank" className="text-blue-500 hover:underline">National Watercolor Society</Link>
+          </p>
         </div>
       </div>
       <div className="flex flex-col items-center  gap-4">
         <div className="w-full bg-white rounded-lg flex items-center justify-center h-40">
-          <Image src="https://watercolorsjanmin.com/wp-content/themes/yootheme/cache/c2/Pitsburg-Watercolor-Society-logo-c217da88.webp" alt="Privilege 3" width={100} height={100} />
+          <Image src="/assets/images/accademia-internazionale-dell-acquarello.png" alt="Privilege 3" width={120} height={100} />
         </div>
         <div className="flex flex-col items-center gap-2">
           <h3 className="text-lg font-bold">
-            Pittsburgh Watercolor Society (USA)
+            Accademia Internazionale dell&#39;Acquerello
           </h3>
-          <p className="text-gray-600 text-center">Jan is a signature member of the Pittsburgh Watercolor Society in the USA. For more information please visit: PWS website</p>
+          <p className="text-gray-600 text-center">
+            Sergiy Lysyy has been a members of the Academy.
+            {' '}
+            <br />
+            For more information please visit:
+            <br />
+            {' '}
+            <Link href="https://www.accademiainternazionaledellacquarello.com/" target="_blank" className="text-blue-500 hover:underline">
+              Accademia Internazionale dell'Acquerello
+            </Link>
+          </p>
         </div>
       </div>
     </div>

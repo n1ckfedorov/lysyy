@@ -6,7 +6,7 @@ export const About = () => {
   return (
     <section className="container mx-auto px-6 py-12 md:py-20">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 gap-x-0 lg:gap-x-10 items-center">
-        <div className="md:col-span-2 lg:border-r border-secondary/30 lg:pr-10 order-2 lg:order-1 ">
+        <div className="md:col-span-2 lg:border-r border-secondary/30 lg:pr-10  ">
           <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
             Sergiy Lysyy in a Quick Overview
 
@@ -26,9 +26,8 @@ export const About = () => {
                 Artist
               </h3>
               <p>
-                Sergiy creates captivating paintings, using a unique blend of colors, textures, and expressive strokes.
-                His works are deeply influenced by nature, emotions, and human connection.
-                Each piece tells a story, inviting the viewer to pause and reflect.
+                I was born in Odessa region, Ukraine in 1971. Since 2011 I live in Klaipeda, Lithuania
+                I paint a lot as it is my great passion and always try to participate in different meetings, conferences, biennales and exhibitions. I love to paint the city sceneries
               </p>
             </div>
 
@@ -39,24 +38,21 @@ export const About = () => {
               </h3>
 
               <p>
-                As an educator, Sergiy helps artists of all levels master different techniques.
-                He conducts
-
-                <strong>live workshops, online classes, and private training sessions</strong>
-                .
-                His teaching approach focuses on creativity, confidence, and self-expression.
+                I actively participate in popularizing watercolor pouring techniques in Lithuania and abroad, organizing watercolor pouring mastery demonstrations and lessons all over the world.
               </p>
             </div>
 
             <div className="flex flex-col items-start gap-2 md:border-r border-secondary/50 md:pr-10">
               <h3 className="text-2xl font-semibold text-gray-900 flex items-center gap-4 ">
                 <Trophy className="size-8 text-secondary" />
-
                 Awards
               </h3>
               <p>
-                Recognized in various art competitions, Sergiy’s work has been exhibited in prestigious galleries and collections worldwide.
-                His achievements include multiple awards and nominations for excellence in fine arts.
+                I have been nominated and awarded numerous prizes and awards.
+                <br />
+
+                <Link href="/awards" className="text-blue-500 hover:underline">See: Awards</Link>
+
               </p>
             </div>
 
@@ -66,17 +62,15 @@ export const About = () => {
                 Works
               </h3>
               <p>
-                Explore Sergiy’s latest artworks and projects in the
-                {' '}
-                <Link href="/works" className="text-blue-500 hover:underline">works</Link>
-                {' '}
-                section. Discover his artistic vision, techniques, and masterpieces available for purchase.
+                My works have been exhibited all over the world, won international awards, and many are in private collections.
+                <br />
+                <Link href="/works" className="text-blue-500 hover:underline">Explore My Works</Link>
               </p>
             </div>
           </div>
         </div>
 
-        <div className="flex justify-center order-1 lg:order-2 mx-auto col-span-2 lg:col-span-1">
+        <div className="flex justify-center mx-auto col-span-2 lg:col-span-1">
           <Image
             src="/assets/images/about.jpg"
             alt="Sergiy Lysyy"

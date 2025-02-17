@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils';
 import React from 'react';
 
 export type SvgProps = {
-  name: 'close' | 'facebook' | 'instagram' | 'telegram';
+  name: 'close' | 'facebook' | 'instagram' | 'yt';
   size?: string | number;
   className?: string;
   strokeWidth?: string | number;

@@ -27,9 +27,9 @@ export const TextContent: FC<TextContentProps> = ({ className, textContent, titl
 
           </div>
           <div className="flex flex-col gap-20 lg:items-end h-full items-center">
-            <Image src="https://watercolorsjanmin.com/wp-content/themes/yootheme/cache/32/Boats-in-the-mist-38-x-56-cm-scaled-321470c4.webp" alt="Sergiy Lysyy" width={500} height={500} className="lg:-mr-40" />
+            <Image src="/assets/images/main-banner/1.jpg" alt="Sergiy Lysyy" width={550} height={550} className="lg:-mr-40" />
 
-            <Image src="https://watercolorsjanmin.com/wp-content/themes/yootheme/cache/8a/Abandoned-38-x-56-cm-de-droom-van-een-verlaten-wrak-.-Silver-Award-Mondial-Art-Academy-2019-aangepast-scaled-8a89e8bb.webp" alt="Sergiy Lysyy" width={400} height={500} />
+            <Image src="/assets/images/main-banner/2.jpg" alt="Sergiy Lysyy" width={450} height={450} />
           </div>
         </div>
       </div>

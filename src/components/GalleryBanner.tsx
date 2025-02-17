@@ -93,7 +93,7 @@ export const GalleryBanner = ({ slides, hasLens = false, className }: { slides: 
     >
       {slides.map(item => renderSlide({ ...item, hovering, setHovering, hasLens }))}
       {slides.length > 1 && (
-        <>
+        <div className="hidden md:flex">
           <IconButton
             variant="primary"
             ref={prevRef}
@@ -111,7 +111,7 @@ export const GalleryBanner = ({ slides, hasLens = false, className }: { slides: 
 
             <ChevronRight className="size-5" />
           </IconButton>
-        </>
+        </div>
       )}
 
       <div className="absolute inset-0 z-20 bg-gradient-to-r from-black/20 to-transparent pointer-events-none" />

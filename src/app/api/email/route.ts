@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     const { name, message, email, productName, type } = body;
 
     const response = await resend.emails.send({
-      to: 'nick.fedorov.dev@gmail.com',
+      to: 'sergiy.lysyy@gmail.com',
       from: 'Sergiy Lysyy <lysyy@sergiylysyy.com>',
       subject: getSubject(type, productName),
       react: EmailTemplate({ name, email, message, productName, type }),
