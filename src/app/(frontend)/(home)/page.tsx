@@ -6,19 +6,19 @@ import { Privilege } from './components/Privilege';
 const bannerSlides = [
   {
     id: 1,
-    image: '/assets/images/main-banner/4.jpg',
+    image: '/assets/images/main-banner/4img.jpg',
   },
   {
     id: 2,
-    image: '/assets/images/main-banner/3.jpg',
+    image: '/assets/images/main-banner/3img.jpg',
   },
   {
     id: 3,
-    image: '/assets/images/main-banner/2.jpg',
+    image: '/assets/images/main-banner/2img.jpg',
   },
   {
     id: 4,
-    image: '/assets/images/main-banner/1.jpg',
+    image: '/assets/images/main-banner/1img.jpg',
   },
 ];
 
