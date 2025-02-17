@@ -27,9 +27,9 @@ export const TextContent: FC<TextContentProps> = ({ className, textContent, titl
 
           </div>
           <div className="flex flex-col gap-20 lg:items-end h-full items-center">
-            <Image src="/assets/images/main-banner/1.jpg" alt="Sergiy Lysyy" width={550} height={550} className="lg:-mr-40" />
+            <Image src="/assets/images/main-banner/1img.jpg" alt="Sergiy Lysyy" width={550} height={550} className="lg:-mr-40" />
 
-            <Image src="/assets/images/main-banner/2.jpg" alt="Sergiy Lysyy" width={450} height={450} />
+            <Image src="/assets/images/main-banner/2img.jpg" alt="Sergiy Lysyy" width={450} height={450} />
           </div>
         </div>
       </div>
