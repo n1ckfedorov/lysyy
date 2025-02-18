@@ -4,6 +4,11 @@ export const getNews = async () => {
   const payload = await getPayloadInstance();
   const news = await payload.find({
     collection: 'news',
+    where: {
+      image: {
+        exists: true,
+      },
+    },
   });
 
   return news.docs;
@@ -16,6 +21,9 @@ export const getNewsBySlug = async (slug: string) => {
     where: {
       slug: {
         equals: slug,
+      },
+      image: {
+        exists: true,
       },
     },
     limit: 1,

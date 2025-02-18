@@ -22,6 +22,9 @@ export const getWorkBySlug = async (slug: string) => {
       slug: {
         equals: slug,
       },
+      image: {
+        exists: true,
+      },
     },
     limit: 1,
     draft: true,

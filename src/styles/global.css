@@ -81,3 +81,7 @@
 .rich-text em {
   @apply text-primary;
 }
+
+img {
+  @apply select-none pointer-events-none;
+}
