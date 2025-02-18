@@ -2,9 +2,9 @@
 
 import NextError from 'next/error';
 
-export default function GlobalError(props: { params: { locale: string } }) {
+export default function GlobalError() {
   return (
-    <html lang={props.params.locale}>
+    <html lang="en">
       <body>
         <NextError statusCode={0} />
       </body>
