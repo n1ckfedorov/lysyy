@@ -28,12 +28,12 @@ const navItems = [
   { label: 'Contact', href: '/contact' },
 ];
 
-const NavLink = ({ label, href, className }: { label: string; href: string; className?: string }) => {
+const NavLink = ({ label, href, className, onClick }: { label: string; href: string; className?: string; onClick?: () => void }) => {
   const pathname = usePathname();
   const isActive = (pathname?.startsWith(href) && pathname !== '/workshop') || pathname === href;
 
   return (
-    <Link href={href} className={cn('block px-4 py-2 text-lg font-medium hover:text-primary', isActive && 'text-primary', className)}>
+    <Link href={href} className={cn('block px-4 py-2 text-lg font-medium hover:text-primary', isActive && 'text-primary', className)} onClick={onClick}>
       {label}
     </Link>
   );
@@ -95,11 +95,9 @@ export const Header = () => {
     <>
       <Overlay isVisible={mobileMenuOpen} onClick={() => setMobileMenuOpen(false)} />
       <header
-
         className={cn(
           'w-full py-4 backdrop-blur-lg bg-white/50',
           mobileMenuOpen && 'bg-white rounded-none',
-          // Ensure header stays above overlay
           'z-50',
         )}
       >
@@ -107,7 +105,7 @@ export const Header = () => {
 
           <div className="flex items-center justify-between">
 
-            <Link href="/" className="text-2xl  font-tertiary">
+            <Link href="/" className="text-2xl  font-tertiary" onClick={() => setMobileMenuOpen(false)}>
               Sergiy Lysyy
             </Link>
 
@@ -133,7 +131,7 @@ export const Header = () => {
                         )
                       : (
                           <NavigationMenuItem key={item.label}>
-                            <NavLink label={item.label} href={item.href} />
+                            <NavLink label={item.label} href={item.href} onClick={() => setMobileMenuOpen(false)} />
                           </NavigationMenuItem>
                         ),
                   )}
@@ -184,7 +182,7 @@ export const Header = () => {
                         </div>
                       )
                     : (
-                        <NavLink key={item.label} label={item.label} href={item.href} className="block py-2 text-lg px-0" />
+                        <NavLink key={item.label} label={item.label} href={item.href} className="block py-2 text-lg px-0" onClick={() => setMobileMenuOpen(false)} />
                       ),
                 )}
               </div>

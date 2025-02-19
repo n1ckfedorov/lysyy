@@ -5,6 +5,7 @@ import type { Work } from '@/payload-types';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components';
 import { useImage } from '@/hooks/useImage';
+import { cn } from '@/lib/utils';
 import { Masonry } from '@mui/lab';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
@@ -77,27 +78,28 @@ const WorksSection = ({ works }: { works: Work[] }) => {
       </div>
 
       {isLoading && (
-        <div className="flex justify-center items-center h-full min-h-[500px]">
+        <div className="flex justify-center items-center h-full min-h-[calc(100vh-400px)]">
           <Loader2 className="w-10 h-10 animate-spin" />
         </div>
       )}
 
-      {!isLoading && (
-        <Masonry
-          className="!m-0"
-          columns={{
-            xs: 1,
-            sm: 2,
-            md: 3,
-          }}
-          spacing={2}
-        >
-          {filteredWorks.map(work => (
-            <WorkCard key={work.id} work={work} />
-          ))}
+      <Masonry
+        className={cn(
+          '!m-0 transition-opacity duration-300',
+          isLoading && 'opacity-0',
+        )}
+        columns={{
+          xs: 1,
+          sm: 2,
+          md: 3,
+        }}
+        spacing={2}
+      >
+        {filteredWorks.map(work => (
+          <WorkCard key={work.id} work={work} />
+        ))}
 
-        </Masonry>
-      )}
+      </Masonry>
 
     </section>
   );

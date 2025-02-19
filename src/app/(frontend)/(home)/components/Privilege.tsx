@@ -51,7 +51,7 @@ export const Privilege = () => {
       </div>
       <div className="flex flex-col items-center  gap-4">
         <div className="w-full bg-white rounded-lg flex items-center justify-center h-40">
-          <Image src="/assets/images/acquarello.png" alt="Privilege 3" width={120} height={100} />
+          <Image src="/assets/images/ac.png" alt="Privilege 3" width={120} height={100} />
         </div>
         <div className="flex flex-col items-center gap-2">
           <h3 className="text-lg font-bold">
