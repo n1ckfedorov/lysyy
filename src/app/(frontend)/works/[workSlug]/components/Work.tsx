@@ -21,6 +21,7 @@ export const WorkDetails: FC<WorkWithNavigationProps> = ({
   isSold,
   width,
   height,
+  price,
   id,
   allWorks,
   slug,
@@ -77,6 +78,16 @@ export const WorkDetails: FC<WorkWithNavigationProps> = ({
                 cm
               </span>
             </div>
+            {price && (
+              <div className="flex items-center gap-2 mt-4">
+                <span>Price:</span>
+                <b className="text-primary text-lg">
+                  {price}
+                  {' '}
+                  $
+                </b>
+              </div>
+            )}
           </div>
           <Button variant="primary" className="lg:mt-10 mt-5" onClick={handleDialogOpen}>Enquire</Button>
           <div className="flex items-center gap-6 lg:border-t border-secondary/20 lg:pt-10 mt-auto justify-center pt-8">

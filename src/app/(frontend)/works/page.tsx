@@ -4,7 +4,5 @@ import Works from './components/Works';
 export default async function WorksPage() {
   const works = await getWorks();
 
-  return (
-    <Works works={works} />
-  );
+  return <Works works={works} />;
 }

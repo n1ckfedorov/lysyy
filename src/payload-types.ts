@@ -205,6 +205,7 @@ export interface Work {
   isSold?: boolean | null;
   width?: number | null;
   height?: number | null;
+  price?: number | null;
   slug: string;
   updatedAt: string;
   createdAt: string;
@@ -574,6 +575,7 @@ export interface WorksSelect<T extends boolean = true> {
   isSold?: T;
   width?: T;
   height?: T;
+  price?: T;
   slug?: T;
   updatedAt?: T;
   createdAt?: T;

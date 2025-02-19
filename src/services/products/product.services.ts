@@ -9,6 +9,7 @@ export const getProducts = async () => {
         exists: true,
       },
     },
+    limit: 999,
   });
 
   return products.docs;

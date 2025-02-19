@@ -9,6 +9,7 @@ export const getWorks = async () => {
         exists: true,
       },
     },
+    limit: 999,
   });
 
   return works.docs;

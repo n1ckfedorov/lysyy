@@ -52,6 +52,10 @@ export const Works: CollectionConfig = {
       type: 'number',
     },
     {
+      name: 'price',
+      type: 'number',
+    },
+    {
       name: 'slug',
       type: 'text',
       admin: {

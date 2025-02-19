@@ -9,6 +9,7 @@ export const getNews = async () => {
         exists: true,
       },
     },
+    limit: 999,
   });
 
   return news.docs;
