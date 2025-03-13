@@ -34,7 +34,11 @@ const WorksSection = ({ works }: { works: Work[] }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(false);
+    const timeoutId = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
   }, []);
 
   const [filter, setFilter] = useState('all');

@@ -79,7 +79,7 @@ export const Contact = () => {
         <span className="font-bold flex  text-secondary">Contact</span>
         <div className="flex gap-2">
           <span className="text-2xl">email: </span>
-          <Link href="mailto:sergiy.lysyy@gmail.com" className="text-2xl ">sergiy.lysyy@gmail.com</Link>
+          <Link href="mailto:lisbor.lisiy@gmail.com" className="text-2xl ">lisbor.lisiy@gmail.com</Link>
         </div>
 
       </div>
