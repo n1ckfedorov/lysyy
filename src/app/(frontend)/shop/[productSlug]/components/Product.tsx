@@ -75,7 +75,7 @@ export const ProductDetails: FC<ProductWithNavigationProps> = ({
 
                 {price}
                 {' '}
-                $
+                €
               </span>
             </div>
           </div>

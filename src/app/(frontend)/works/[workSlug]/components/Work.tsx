@@ -84,7 +84,7 @@ export const WorkDetails: FC<WorkWithNavigationProps> = ({
                 <b className="text-primary text-lg">
                   {price}
                   {' '}
-                  $
+                  €
                 </b>
               </div>
             )}

@@ -39,7 +39,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           {' '}
           {product.price}
           {' '}
-          $
+          €
         </span>
         <Button variant="primary" className="mt-3 w-full py-2 text-white bg-primary hover:bg-primary-dark transition duration-200">
           Details
