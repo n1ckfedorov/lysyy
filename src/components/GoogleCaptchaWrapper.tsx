@@ -1,6 +1,5 @@
 'use client';
 import type { ReactNode } from 'react';
-import React from 'react';
 import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
 
 type GoogleCaptchaWrapperProps = {

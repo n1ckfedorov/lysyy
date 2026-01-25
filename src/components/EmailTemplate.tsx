@@ -1,5 +1,3 @@
-import * as React from 'react';
-
 type EmailTemplateProps = {
   name: string;
   email: string;

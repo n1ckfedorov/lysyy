@@ -7,7 +7,7 @@ import {
   useTransform,
 } from 'framer-motion';
 import Image from 'next/image';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { RichText } from '../RichText/RichText';
 
 type TimelineEntry = {

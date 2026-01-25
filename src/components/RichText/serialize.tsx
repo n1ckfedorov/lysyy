@@ -6,13 +6,12 @@ import type { SerializedListItemNode, SerializedListNode } from '@lexical/list';
 import type { SerializedHeadingNode } from '@lexical/rich-text';
 import type { LinkFields, SerializedLinkNode } from '@payloadcms/richtext-lexical';
 import type { SerializedElementNode, SerializedLexicalNode, SerializedTextNode } from 'lexical';
-import { cn } from '@/lib/utils';
+import type { JSX } from 'react';
 import escapeHTML from 'escape-html';
-
 import Image from 'next/image';
 import Link from 'next/link';
 
-import React, { type JSX } from 'react';
+import { cn } from '@/lib/utils';
 import {
   IS_BOLD,
   IS_CODE,

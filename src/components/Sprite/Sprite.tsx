@@ -1,6 +1,5 @@
 /* eslint-disable react-dom/no-dangerously-set-innerhtml */
 import type { FC } from 'react';
-import React from 'react';
 
 export type SpriteProps = {
   className?: string;
