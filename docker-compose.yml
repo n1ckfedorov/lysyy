@@ -1,0 +1,47 @@
+services:
+  payload:
+    image: lysyy:latest
+    container_name: lysyy
+    ports:
+      - "3001:3000"
+    restart: unless-stopped
+    environment:
+      DATABASE_URI: ${DATABASE_URI}
+      PREVIEW_SECRET: ${PREVIEW_SECRET}
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET}
+      PAYLOAD_PUBLIC_DRAFT_SECRET: ${PAYLOAD_PUBLIC_DRAFT_SECRET}
+      REVALIDATION_KEY: ${REVALIDATION_KEY}
+      PAYLOAD_AUTOSAVE_INTERVAL: ${PAYLOAD_AUTOSAVE_INTERVAL}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      NEXT_PUBLIC_RECAPTCHA_SITE_KEY: ${NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+      RECAPTCHA_SECRET_KEY: ${RECAPTCHA_SECRET_KEY}
+    depends_on:
+      - postgres
+    networks:
+      - lysyy-admin
+
+  postgres:
+    image: postgres:14-alpine
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lysyy-admin
+
+volumes:
+  postgres_data:
+
+networks:
+  lysyy-admin:
+    driver: bridge

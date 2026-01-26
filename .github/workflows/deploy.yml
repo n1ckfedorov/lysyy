@@ -1,40 +1,142 @@
-name: Deploy Next.js App
+name: Build and Deploy Backend
 
 on:
   push:
     branches:
-      - master
+      - docker-migration
 
 jobs:
-  deploy:
+  build_and_deploy_dev:
     runs-on: ubuntu-latest
+    env:
+      # HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+      # FIREWALL_NAME_STAGE: ${{ secrets.FIREWALL_NAME }}
+      HOST: 37.27.246.249
+      REMOTE_USER: root
 
     steps:
-      # Шаг 1: Настройка SSH-агента и добавление ключа
-      - name: Setup SSH agent and add private key
-        uses: webfactory/ssh-agent@v0.5.3
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # - name: Install Dependencies & hcloud CLI
+      #   run: |
+      #     sudo apt update && sudo apt install -y bzip2 openssh-client
+      #     curl -sL https://github.com/hetznercloud/cli/releases/latest/download/hcloud-linux-amd64.tar.gz | tar xz
+      #     sudo mv hcloud /usr/local/bin/
+
+      # - name: Get GitHub Runner Public IP
+      #   id: get_ip
+      #   run: |
+      #     IP=$(curl -s https://api.ipify.org)
+      #     echo "runner_ip=$IP" >> $GITHUB_OUTPUT
+
+      # - name: Add Runner IP to Hetzner Firewall
+      #   run: |
+      #     hcloud firewall add-rule $FIREWALL_NAME_STAGE \
+      #       --direction in \
+      #       --protocol tcp \
+      #       --port 22 \
+      #       --source-ips ${{ steps.get_ip.outputs.runner_ip }}/32
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # Шаг 2: Добавление known_hosts для проверки ключа сервера
-      - name: Add known_hosts entry
+      - name: Add remote host to known_hosts
         run: |
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ env.HOST }} >> ~/.ssh/known_hosts
 
-      # Шаг 3: Принудительное обновление репозитория и деплой на сервер
-      - name: Deploy to server
+      - name: Ensure target directory exists on remote
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ env.HOST }}
+          username: ${{ env.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            set -e
+            mkdir -p /opt/lysyy
+
+      - name: Copy compose file to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ env.HOST }}
+          username: ${{ env.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "docker-compose.yml"
+          target: "/opt/lysyy"
+
+      - name: Run PostgreSQL on remote server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ env.HOST }}
+          username: ${{ env.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            set -e
+            cd /opt/lysyy
+            docker compose up -d postgres
+
+      - name: Build Docker image
         run: |
-          ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-            cd /var/www/lysyy
-            git fetch origin master
-            git reset --hard origin/master
-            git clean -fd
-            npm ci --legacy-peer-deps
-            rm -rf .next
-            npm run build
-            pm2 restart all
-          EOF
+          echo "NEXT_PUBLIC_APP_URL=${{ secrets.NEXT_PUBLIC_APP_URL }}" > .env
+          echo "DATABASE_URI=${{ secrets.DATABASE_URI }}" > .env
+          echo "PREVIEW_SECRET=${{ secrets.PREVIEW_SECRET }}" >> .env
+          echo "PAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}" >> .env
+          echo "PAYLOAD_PUBLIC_DRAFT_SECRET=${{ secrets.PAYLOAD_PUBLIC_DRAFT_SECRET }}" >> .env
+          echo "REVALIDATION_KEY=${{ secrets.REVALIDATION_KEY }}" >> .env
+          echo "PAYLOAD_AUTOSAVE_INTERVAL=${{ vars.PAYLOAD_AUTOSAVE_INTERVAL }}" >> .env
+          echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env
+          echo "NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${{ vars.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}" >> .env
+          echo "RECAPTCHA_SECRET_KEY=${{ secrets.RECAPTCHA_SECRET_KEY }}" >> .env
 
-      # Шаг 4: Проверка, что сервер работает
-      - name: Verify deployment
-        run: curl -I http://${{ secrets.SERVER_IP }}
+          docker build -t lysyy:latest .
+          rm -f .env
+
+      - name: Save Docker image to tarball
+        run: docker save lysyy:latest | gzip > lysyy.tar.gz
+
+      - name: Copy image and compose file to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ env.HOST }}
+          username: ${{ env.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "lysyy.tar.gz"
+          target: "/opt/lysyy"
+
+      - name: Deploy on remote server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ env.HOST }}
+          username: ${{ env.REMOTE_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            set -e
+            cd /opt/lysyy
+            docker load < lysyy.tar.gz
+            rm lysyy.tar.gz
+            docker compose up -d payload
+            docker image prune -f
+
+      # - name: Remove Runner IP from DigitalOcean Firewall
+      #   if: always()
+      #   run: |
+      #     doctl compute firewall remove-rules ${{secrets.DO_FIREWALL_DEV_ID}} \
+      #       --inbound-rules "protocol:tcp,ports:22,address:${{ env.RUNNER_IP }}/32"
+      #     doctl compute firewall remove-rules ${{secrets.DO_FIREWALL_DEV_ID}} \
+      #       --inbound-rules "protocol:tcp,ports:27017,address:${{ env.RUNNER_IP }}/32"
+      #     doctl compute firewall remove-rules ${{secrets.DO_FIREWALL_DEV_ID}} \
+      #       --inbound-rules "protocol:tcp,ports:6379,address:${{ env.RUNNER_IP }}/32"
+      #     echo "Firewall rule removed for IP: ${{ env.RUNNER_IP }}"
+
+      - name: URL Info
+        run: echo "https://sergiylysyy.com/"
