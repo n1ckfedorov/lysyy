@@ -6,6 +6,7 @@ services:
       - "3001:3000"
     restart: unless-stopped
     environment:
+      NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
       DATABASE_URI: ${DATABASE_URI}
       PREVIEW_SECRET: ${PREVIEW_SECRET}
       PAYLOAD_SECRET: ${PAYLOAD_SECRET}
