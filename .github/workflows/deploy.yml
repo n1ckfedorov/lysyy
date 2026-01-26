@@ -6,7 +6,7 @@ on:
       - docker-migration
 
 jobs:
-  build_and_deploy_dev:
+  build_and_deploy_admin:
     runs-on: ubuntu-latest
     env:
       # HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
@@ -34,10 +34,10 @@ jobs:
 
       # - name: Add Runner IP to Hetzner Firewall
       #   run: |
-      #     hcloud firewall add-rule $FIREWALL_NAME_STAGE \
+      #     hcloud firewall add-rule $FIREWALL_NAME \
       #       --direction in \
       #       --protocol tcp \
-      #       --port 22 \
+      #       --port 5432 \
       #       --source-ips ${{ steps.get_ip.outputs.runner_ip }}/32
 
       - name: Set up SSH
@@ -86,7 +86,7 @@ jobs:
       - name: Build Docker image
         run: |
           echo "NEXT_PUBLIC_APP_URL=${{ secrets.NEXT_PUBLIC_APP_URL }}" > .env
-          echo "DATABASE_URI=${{ secrets.DATABASE_URI }}" > .env
+          echo "DATABASE_URI=${{ secrets.DATABASE_URI }}" >> .env
           echo "PREVIEW_SECRET=${{ secrets.PREVIEW_SECRET }}" >> .env
           echo "PAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}" >> .env
           echo "PAYLOAD_PUBLIC_DRAFT_SECRET=${{ secrets.PAYLOAD_PUBLIC_DRAFT_SECRET }}" >> .env
@@ -127,16 +127,11 @@ jobs:
             docker compose up -d payload
             docker image prune -f
 
-      # - name: Remove Runner IP from DigitalOcean Firewall
+      # - name: Remove Runner IP from Hetzner Firewall
       #   if: always()
       #   run: |
-      #     doctl compute firewall remove-rules ${{secrets.DO_FIREWALL_DEV_ID}} \
-      #       --inbound-rules "protocol:tcp,ports:22,address:${{ env.RUNNER_IP }}/32"
-      #     doctl compute firewall remove-rules ${{secrets.DO_FIREWALL_DEV_ID}} \
-      #       --inbound-rules "protocol:tcp,ports:27017,address:${{ env.RUNNER_IP }}/32"
-      #     doctl compute firewall remove-rules ${{secrets.DO_FIREWALL_DEV_ID}} \
-      #       --inbound-rules "protocol:tcp,ports:6379,address:${{ env.RUNNER_IP }}/32"
-      #     echo "Firewall rule removed for IP: ${{ env.RUNNER_IP }}"
-
-      - name: URL Info
-        run: echo "https://sergiylysyy.com/"
+      #     hcloud firewall delete-rule $FIREWALL_NAME \
+      #       --direction in \
+      #       --protocol tcp \
+      #       --port 22 \
+      #       --source-ips ${{ steps.get_ip.outputs.runner_ip }}/32
