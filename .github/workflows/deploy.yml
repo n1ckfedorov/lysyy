@@ -3,7 +3,7 @@ name: Build and Deploy Backend
 on:
   push:
     branches:
-      - docker-migration
+      - master
 
 jobs:
   build_and_deploy_admin:
