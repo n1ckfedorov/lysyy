@@ -91,9 +91,9 @@ jobs:
           echo "PAYLOAD_SECRET=${{ secrets.PAYLOAD_SECRET }}" >> .env
           echo "PAYLOAD_PUBLIC_DRAFT_SECRET=${{ secrets.PAYLOAD_PUBLIC_DRAFT_SECRET }}" >> .env
           echo "REVALIDATION_KEY=${{ secrets.REVALIDATION_KEY }}" >> .env
-          echo "PAYLOAD_AUTOSAVE_INTERVAL=${{ vars.PAYLOAD_AUTOSAVE_INTERVAL }}" >> .env
+          echo "PAYLOAD_AUTOSAVE_INTERVAL=${{ secrets.PAYLOAD_AUTOSAVE_INTERVAL }}" >> .env
           echo "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}" >> .env
-          echo "NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${{ vars.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}" >> .env
+          echo "NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${{ secrets.NEXT_PUBLIC_RECAPTCHA_SITE_KEY }}" >> .env
           echo "RECAPTCHA_SECRET_KEY=${{ secrets.RECAPTCHA_SECRET_KEY }}" >> .env
 
           docker build -t lysyy:latest .
