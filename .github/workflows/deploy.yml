@@ -9,8 +9,8 @@ jobs:
   build_and_deploy_admin:
     runs-on: ubuntu-latest
     env:
-      # HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
-      # FIREWALL_NAME_STAGE: ${{ secrets.FIREWALL_NAME }}
+      HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+      FIREWALL_NAME: ${{ secrets.FIREWALL_NAME }}
       HOST: 37.27.246.249
       REMOTE_USER: root
 
@@ -20,25 +20,25 @@ jobs:
         with:
           fetch-depth: 0
 
-      # - name: Install Dependencies & hcloud CLI
-      #   run: |
-      #     sudo apt update && sudo apt install -y bzip2 openssh-client
-      #     curl -sL https://github.com/hetznercloud/cli/releases/latest/download/hcloud-linux-amd64.tar.gz | tar xz
-      #     sudo mv hcloud /usr/local/bin/
+      - name: Install Dependencies & hcloud CLI
+        run: |
+          sudo apt update && sudo apt install -y bzip2 openssh-client
+          curl -sL https://github.com/hetznercloud/cli/releases/latest/download/hcloud-linux-amd64.tar.gz | tar xz
+          sudo mv hcloud /usr/local/bin/
 
-      # - name: Get GitHub Runner Public IP
-      #   id: get_ip
-      #   run: |
-      #     IP=$(curl -s https://api.ipify.org)
-      #     echo "runner_ip=$IP" >> $GITHUB_OUTPUT
+      - name: Get GitHub Runner Public IP
+        id: get_ip
+        run: |
+          IP=$(curl -s https://api.ipify.org)
+          echo "runner_ip=$IP" >> $GITHUB_OUTPUT
 
-      # - name: Add Runner IP to Hetzner Firewall
-      #   run: |
-      #     hcloud firewall add-rule $FIREWALL_NAME \
-      #       --direction in \
-      #       --protocol tcp \
-      #       --port 5432 \
-      #       --source-ips ${{ steps.get_ip.outputs.runner_ip }}/32
+      - name: Add Runner IP to Hetzner Firewall
+        run: |
+          hcloud firewall add-rule $FIREWALL_NAME \
+            --direction in \
+            --protocol tcp \
+            --port 5432 \
+            --source-ips ${{ steps.get_ip.outputs.runner_ip }}/32
 
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.9.0
@@ -127,11 +127,11 @@ jobs:
             docker compose up -d payload
             docker image prune -f
 
-      # - name: Remove Runner IP from Hetzner Firewall
-      #   if: always()
-      #   run: |
-      #     hcloud firewall delete-rule $FIREWALL_NAME \
-      #       --direction in \
-      #       --protocol tcp \
-      #       --port 22 \
-      #       --source-ips ${{ steps.get_ip.outputs.runner_ip }}/32
+      - name: Remove Runner IP from Hetzner Firewall
+        if: always()
+        run: |
+          hcloud firewall delete-rule $FIREWALL_NAME \
+            --direction in \
+            --protocol tcp \
+            --port 5432 \
+            --source-ips ${{ steps.get_ip.outputs.runner_ip }}/32
